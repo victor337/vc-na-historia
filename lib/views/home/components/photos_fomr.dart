@@ -10,31 +10,46 @@ class PhotosForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 200,
-      padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
+      padding: const EdgeInsets.fromLTRB(10, 20, 15, 20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15)
       ),
       child: GetBuilder<FormController>(
         builder: (formControll){
-          return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: formControll.images.length + 1,
-            itemBuilder: (ctx, index){
-              if(index < formControll.images.length){
-                return ListImages(
-                  path: formControll.images[index],
-                  index: index,
-                  remove: formControll.removeImage,
-                );
-              } else {
-                return AddPhoto(
-                  addImage: (path){
-                    formControll.addImageAccount(path);
-                  },
-                );
-              }
-            }
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Fotos',
+                style: TextStyle(
+                  fontSize: 20
+                ),
+              ),
+              const SizedBox(height: 10,),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: formControll.images.length + 1,
+                  itemBuilder: (ctx, index){
+                    if(index < formControll.images.length){
+                      return ListImages(
+                        path: formControll.images[index],
+                        index: index,
+                        remove: formControll.removeImage,
+                      );
+                    } else {
+                      return AddPhoto(
+                        addImage: (path){
+                          formControll.addImageAccount(path);
+                        },
+                      );
+                    }
+                  }
+                ),
+              ),
+            ],
           );
         },
       ),

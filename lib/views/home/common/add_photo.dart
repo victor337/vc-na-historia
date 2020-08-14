@@ -19,6 +19,9 @@ class AddPhoto extends StatelessWidget {
 
     Future<void> saveImage(int font)async{
 
+      await Permission.camera.request();
+      await Permission.storage.request();
+
       if(await Permission.camera.request().isDenied ||
         await Permission.storage.request().isDenied){
           showDialog(
@@ -89,18 +92,9 @@ class AddPhoto extends StatelessWidget {
           );
           return;
         }
-        final File file = File(pickedFile.path);
-        final bool sucess = await GallerySaver.saveImage(file.path);
-        if(sucess){
-          addImage(file);
-        } else {
-          Get.snackbar(
-            'Erro',
-            'Não foi possível salvar a imagem',
-            backgroundColor: Colors.red
-          );
-        }
         
+        final File file = File(pickedFile.path);
+        addImage(file);
       }
 
     }
@@ -116,25 +110,47 @@ class AddPhoto extends StatelessWidget {
                 color: Colors.white,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    IconButton(
-                      icon: const Icon(Icons.photo_camera),
-                      onPressed: ()async{
-                        Navigator.of(context).pop();
-                        orderController.setLoadingImages();
-                        await saveImage(1);
-                        orderController.setLoadingImages();
-                      },
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GestureDetector(
+                          onTap: ()async{
+                            Navigator.of(context).pop();
+                            orderController.setLoadingImages();
+                            await saveImage(1);
+                            orderController.setLoadingImages();
+                          },
+                          child: Container(
+                            height: 50,
+                            padding: const EdgeInsets.all(5),
+                            child: Image.asset('assets/camera.png'),
+                          ),
+                        ),
+                        const Text('Camera')
+                      ],
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.photo_album),
-                      onPressed: ()async{
-                        Navigator.of(context).pop();
-                        orderController.setLoadingImages();
-                        await saveImage(2);
-                        orderController.setLoadingImages();
-                      },
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GestureDetector(
+                          onTap: ()async{
+                            Navigator.of(context).pop();
+                            orderController.setLoadingImages();
+                            await saveImage(2);
+                            orderController.setLoadingImages();
+                          },
+                          child: Container(
+                            height: 50,
+                            padding: const EdgeInsets.all(5),
+                            child: Image.asset('assets/gallery.png'),
+                          ),
+                        ),
+                        const Text(
+                          'Galeria'
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -142,8 +158,9 @@ class AddPhoto extends StatelessWidget {
             );
           },
           child: Container(
+            width: 100,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(230, 255, 153, 51,),
+              color: const Color.fromARGB(230, 230, 62, 62,),
               borderRadius: BorderRadius.circular(10)
             ),
             child: const Icon(Icons.add, color: Colors.white,),

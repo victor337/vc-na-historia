@@ -26,6 +26,13 @@ class FormAll extends StatelessWidget {
         builder: (formControll){
           return Column(
             children: [
+              const Text(
+                'Dados',
+                style: TextStyle(
+                  fontSize: 20
+                ),
+              ),
+              const SizedBox(height: 10,),
               CustomFormField(
                 hintText: 'XX/XX/XXXX',
                 labelText: 'Data',

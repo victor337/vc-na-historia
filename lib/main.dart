@@ -11,7 +11,7 @@ void main() {
           primaryColor: Colors.red,
           fontFamily: 'VarelaRound'
         ),
-        defaultTransition: Transition.size,
+        defaultTransition: Transition.topLevel,
         getPages: [
           GetPage(name: '/home', page: () => HomeScreen())
         ],
