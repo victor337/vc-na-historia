@@ -1,9 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vcnahistoria/common/custom_drawer.dart';
+import 'package:vcnahistoria/controllers/base_controller.dart';
 import 'package:vcnahistoria/controllers/form_controller.dart';
 import 'package:vcnahistoria/models/tile_facts.dart';
-import 'package:vcnahistoria/views/historic/historic_screen.dart';
 import 'package:vcnahistoria/views/home/components/form_all.dart';
 import 'package:vcnahistoria/views/home/components/photos_fomr.dart';
 import 'package:vcnahistoria/views/home/components/preview.dart';
@@ -14,8 +15,10 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        drawer: CustomDrawer(),
         appBar: AppBar(
-          backgroundColor: const Color(0xffe33030),
+          backgroundColor: const Color.fromARGB(255, 30, 30, 30),
           elevation: 0,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -26,24 +29,42 @@ class HomeScreen extends StatelessWidget {
                   color: Colors.white
                 ),
               ),
-              GetBuilder<FormController>(
-                init: FormController(),
+              GetBuilder<BaseController>(
+                builder: (baseController){
+                  return GetBuilder<FormController>(
                 builder: (formControll){
                   return FlatButton(
                     onPressed: (){
+                      if(formControll.isValid()){
+                        final TileFacts newFact = TileFacts(
+                          date: formControll.data,
+                          saveData: DateTime.now().toString(),
+                          fact: formControll.fato,
+                          character: formControll.person,
+                          local: formControll.local,
+                          images: formControll.images,
+                          details: formControll.details,
+                        );
 
-                      final TileFacts newFact = TileFacts(
-                        date: formControll.data,
-                        saveData: DateTime.now().toString(),
-                        fact: formControll.fato,
-                        character: formControll.person,
-                        local: formControll.local,
-                        images: formControll.images
-                      );
-
-                      formControll.addFact(newFact);
-
-                      Get.to(HistoricScreen());
+                        formControll.addFact(newFact);
+                        formControll.cleanAll();
+                        baseController.setPage(0);
+                      } else {
+                        Get.dialog(
+                          AlertDialog(
+                            title: const Text('Atenção'),
+                            content: const Text('Todos os campos devem ser preenchidos.'),
+                            actions: [
+                              FlatButton(
+                                onPressed: (){
+                                  Get.back();
+                                },
+                                child: const Text('Ok')
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     },
                     child: const Text(
                       'Salvar',
@@ -53,21 +74,14 @@ class HomeScreen extends StatelessWidget {
                     ),
                   );
                 },
+              );
+                },
               ),
             ],
           ),
         ),
         body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xffe33030),
-                Color(0xffff4f4f),
-              ]
-            ),
-          ),
+          color: const Color.fromARGB(255, 30, 30, 30),
           child: ListView(
             padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
             children: [

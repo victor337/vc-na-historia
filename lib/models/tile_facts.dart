@@ -10,6 +10,7 @@ class TileFacts {
   String character;
   String local;
   List<File> images;
+  String details;
 
   TileFacts({
     @required this.date,
@@ -18,6 +19,7 @@ class TileFacts {
     @required this.character,
     @required this.local,
     @required this.images,
+    @required this.details,
   });
 
 

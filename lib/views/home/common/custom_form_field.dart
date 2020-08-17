@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 class CustomFormField extends StatelessWidget {
 
+  final String initialValue;
   final String hintText;
   final String labelText;
   final FocusNode focusNode;
@@ -12,8 +13,10 @@ class CustomFormField extends StatelessWidget {
   final List<TextInputFormatter> textInputFormatter;
   final Function(String) onChanged;
   final Function(String) onSubmit;
+  final double height;
 
   const CustomFormField({
+    @required this.initialValue,
     @required this.hintText,
     @required this.labelText,
     @required this.focusNode,
@@ -22,14 +25,17 @@ class CustomFormField extends StatelessWidget {
     @required this.textInputFormatter,
     @required this.onChanged,
     @required this.onSubmit,
+    this.height,
   });
 
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: height,
       margin: const EdgeInsets.only(bottom: 15),
       child: TextFormField(
+        initialValue: initialValue,
         focusNode: focusNode,
         textInputAction: textInputAction,
         keyboardType: keyboardType,

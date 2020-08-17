@@ -18,13 +18,20 @@ class PhotosForm extends StatelessWidget {
       child: GetBuilder<FormController>(
         builder: (formControll){
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Fotos',
-                style: TextStyle(
-                  fontSize: 20
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    'Fotos',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 10,),
               Expanded(
@@ -49,6 +56,13 @@ class PhotosForm extends StatelessWidget {
                   }
                 ),
               ),
+              Visibility(
+                visible: formControll.isLoadingImages,
+                child: const LinearProgressIndicator(
+                  backgroundColor: Colors.white,
+                  valueColor: AlwaysStoppedAnimation(Colors.grey),
+                ),
+              )
             ],
           );
         },

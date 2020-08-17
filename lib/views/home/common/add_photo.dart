@@ -24,7 +24,7 @@ class AddPhoto extends StatelessWidget {
 
       if(await Permission.camera.request().isDenied ||
         await Permission.storage.request().isDenied){
-          showDialog(
+          return showDialog(
             context: context,
             child: AlertDialog(
               content: const Text(
@@ -40,7 +40,6 @@ class AddPhoto extends StatelessWidget {
               ],
             )
           );
-          return;
       } else {
         final picker = ImagePicker();
 
@@ -74,7 +73,7 @@ class AddPhoto extends StatelessWidget {
         }
         
         if(pickedFile == null){
-          showDialog(
+          return showDialog(
             context: context,
             child: AlertDialog(
               content: const Text(
@@ -90,7 +89,6 @@ class AddPhoto extends StatelessWidget {
               ],
             )
           );
-          return;
         }
         
         final File file = File(pickedFile.path);
@@ -100,7 +98,6 @@ class AddPhoto extends StatelessWidget {
     }
 
     return GetBuilder<FormController>(
-      init: FormController(),
       builder: (orderController){
         return GestureDetector(
           onTap: (){
@@ -160,7 +157,7 @@ class AddPhoto extends StatelessWidget {
           child: Container(
             width: 100,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(230, 230, 62, 62,),
+              color: Colors.grey,
               borderRadius: BorderRadius.circular(10)
             ),
             child: const Icon(Icons.add, color: Colors.white,),

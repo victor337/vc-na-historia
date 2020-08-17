@@ -13,9 +13,10 @@ class FactsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: Colors.red,
+        color: Colors.white,
       ),
       child: GetBuilder<FormController>(
         builder: (formControll){
@@ -46,12 +47,12 @@ class FactsWidget extends StatelessWidget {
               );
             },
             onTap: (){
-              Get.to(DetailsScreen(tileFacts));
+              Get.to(DetailsScreen(tileFacts, index));
             },
             title: Text(
               tileFacts.fact,
               style: const TextStyle(
-                color: Colors.white
+                color: Colors.black
               ),
             ),
             subtitle: Row(
@@ -62,11 +63,11 @@ class FactsWidget extends StatelessWidget {
                     color: Colors.grey
                   ),
                 ),
-                const SizedBox(width: 20,),
+                const SizedBox(width: 10,),
                 Text(
                   tileFacts.local,
-                  style: const TextStyle(
-                    color: Colors.green
+                  style: TextStyle(
+                    color: tileFacts.local == 'Brasil' ? Colors.green : Colors.red,
                   ),
                 ),
               ],

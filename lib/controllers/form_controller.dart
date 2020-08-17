@@ -59,13 +59,26 @@ class FormController extends GetxController {
     update();
   }
 
+  String details;
+  void setdetails(String newdetails){
+    details = newdetails;
+    update();
+  }
+
   void cleanAll(){
     images = [];
-    data = '';
-    fato = '';
-    person = '';
-    local = '';
+    data = null;
+    fato = null;
+    person = null;
+    local = null;
+    details = null;
     update();
+  }
+
+  bool isValid(){
+    return data != null && data != '' && fato != null && 
+      fato != '' && person != null && person != '' && 
+      local != null && local != '' && details != null && details != '';
   }
 
 }

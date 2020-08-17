@@ -12,17 +12,17 @@ class FormAll extends StatelessWidget {
   final FocusNode focusFato = FocusNode();
   final FocusNode focusPerso = FocusNode();
   final FocusNode focusLocal = FocusNode();
+  final FocusNode focusDetails = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
+      padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15)
       ),
       child: GetBuilder<FormController>(
-        init: FormController(),
         builder: (formControll){
           return Column(
             children: [
@@ -34,6 +34,7 @@ class FormAll extends StatelessWidget {
               ),
               const SizedBox(height: 10,),
               CustomFormField(
+                initialValue: formControll.data,
                 hintText: 'XX/XX/XXXX',
                 labelText: 'Data',
                 focusNode: focusData,
@@ -50,6 +51,7 @@ class FormAll extends StatelessWidget {
                 }
               ),
               CustomFormField(
+                initialValue: formControll.fato,
                 hintText: 'Digite aqui',
                 labelText: 'Fato histórico',
                 focusNode: focusFato,
@@ -64,6 +66,7 @@ class FormAll extends StatelessWidget {
                 }
               ),
               CustomFormField(
+                initialValue: formControll.person,
                 hintText: 'Digite aqui',
                 labelText: 'Personagem',
                 focusNode: focusPerso,
@@ -78,17 +81,43 @@ class FormAll extends StatelessWidget {
                 }
               ),
               CustomFormField(
+                initialValue: formControll.local,
                 hintText: 'Digite aqui',
                 labelText: 'Local',
                 focusNode: focusLocal,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.text,
                 textInputFormatter: const [
                 ],
                 onChanged: formControll.setlocal,
                 onSubmit: (text){
                   focusLocal.unfocus();
+                  FocusScope.of(context).requestFocus(focusDetails);
                 }
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                height: 200,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(200, 255, 255, 255),
+                  border: Border.all(width: 0.5),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextFormField(
+                  initialValue: formControll.details,
+                  maxLines: 10,
+                  focusNode: focusDetails,
+                  onFieldSubmitted: (txt){
+                    focusDetails.unfocus();
+                  },
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.done,
+                  onChanged: formControll.setdetails,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Escreva aqui os detalhes'
+                  ),
+                ),
               ),
             ],
           );

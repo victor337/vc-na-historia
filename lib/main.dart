@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vcnahistoria/views/home/home_screen.dart';
+import 'package:vcnahistoria/bindings/form_bindig.dart';
+import 'package:vcnahistoria/views/base/base_screen.dart';
 
 void main() {
   runApp(
     GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/home',
+        initialRoute: '/base',
         theme: ThemeData(
-          primaryColor: Colors.red,
+          primaryColor: const Color.fromARGB(255, 30, 30, 30),
           fontFamily: 'VarelaRound'
         ),
         defaultTransition: Transition.topLevel,
         getPages: [
-          GetPage(name: '/home', page: () => HomeScreen())
+          GetPage(
+            name: '/base', page: () => BaseScreen(),
+            binding: FormBinding()
+          )
         ],
     )
   );
