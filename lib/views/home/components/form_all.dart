@@ -1,9 +1,9 @@
-import 'package:brasil_fields/formatter/data_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vcnahistoria/controllers/form_controller.dart';
 import 'package:vcnahistoria/views/home/common/custom_form_field.dart';
+import 'package:vcnahistoria/views/home/common/dropdown_option.dart';
 
 
 class FormAll extends StatelessWidget {  
@@ -33,22 +33,34 @@ class FormAll extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10,),
-              CustomFormField(
-                initialValue: formControll.data,
-                hintText: 'XX/XX/XXXX',
-                labelText: 'Data',
-                focusNode: focusData,
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.number,
-                textInputFormatter: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  DataInputFormatter()
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomFormField(
+                      maxLenght: 4,
+                      initialValue: formControll.data,
+                      hintText: 'XXXX',
+                      labelText: 'Ano',
+                      focusNode: focusData,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.number,
+                      textInputFormatter: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      onChanged: formControll.setData,
+                      onSubmit: (text){
+                        focusData.unfocus();
+                        FocusScope.of(context).requestFocus(focusFato);
+                      }
+                    ),
+                  ),
+                  DropDownOption(
+                    title: 'Tempo',
+                    options: const ['A.C.', 'D.C.'],
+                    onChanged: formControll.setTyme,
+                    value: formControll.tyme??'D.C.',
+                  ),
                 ],
-                onChanged: formControll.setData,
-                onSubmit: (text){
-                  focusData.unfocus();
-                  FocusScope.of(context).requestFocus(focusFato);
-                }
               ),
               CustomFormField(
                 initialValue: formControll.fato,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vcnahistoria/common/custom_drawer.dart';
 import 'package:vcnahistoria/controllers/base_controller.dart';
+import 'package:vcnahistoria/controllers/data_controller.dart';
 import 'package:vcnahistoria/controllers/form_controller.dart';
 import 'package:vcnahistoria/models/tile_facts.dart';
 import 'package:vcnahistoria/views/home/components/form_all.dart';
@@ -31,50 +32,56 @@ class HomeScreen extends StatelessWidget {
               ),
               GetBuilder<BaseController>(
                 builder: (baseController){
-                  return GetBuilder<FormController>(
-                builder: (formControll){
-                  return FlatButton(
-                    onPressed: (){
-                      if(formControll.isValid()){
-                        final TileFacts newFact = TileFacts(
-                          date: formControll.data,
-                          saveData: DateTime.now().toString(),
-                          fact: formControll.fato,
-                          character: formControll.person,
-                          local: formControll.local,
-                          images: formControll.images,
-                          details: formControll.details,
-                        );
+                  return GetBuilder<DataController>(
+                    builder: (dataController){
+                      return GetBuilder<FormController>(
+                        builder: (formControll){
+                          return FlatButton(
+                            onPressed: (){
+                              if(formControll.isValid()){
+                                final TileFacts newFact = TileFacts(
+                                  tyme: formControll.tyme,
+                                  date: formControll.tyme == 'A.C.' ? '-${formControll.data}' 
+                                    : formControll.data,
+                                  saveData: DateTime.now().toString(),
+                                  fact: formControll.fato,
+                                  character: formControll.person,
+                                  local: formControll.local,
+                                  images: formControll.images,
+                                  details: formControll.details,
+                                );
 
-                        formControll.addFact(newFact);
-                        formControll.cleanAll();
-                        baseController.setPage(0);
-                      } else {
-                        Get.dialog(
-                          AlertDialog(
-                            title: const Text('Atenção'),
-                            content: const Text('Todos os campos devem ser preenchidos.'),
-                            actions: [
-                              FlatButton(
-                                onPressed: (){
-                                  Get.back();
-                                },
-                                child: const Text('Ok')
+                                dataController.addFact(newFact);
+                                formControll.cleanAll();
+                                baseController.setPage(0);
+                              } else {
+                                Get.dialog(
+                                  AlertDialog(
+                                    title: const Text('Atenção'),
+                                    content: const Text('Todos os campos devem ser preenchidos.'),
+                                    actions: [
+                                      FlatButton(
+                                        onPressed: (){
+                                          Get.back();
+                                        },
+                                        child: const Text('Ok')
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            },
+                            child: const Text(
+                              'Salvar',
+                              style: TextStyle(
+                                color: Colors.white
                               ),
-                            ],
-                          ),
-                        );
-                      }
+                            ),
+                          );
+                        },
+                      );
                     },
-                    child: const Text(
-                      'Salvar',
-                      style: TextStyle(
-                        color: Colors.white
-                      ),
-                    ),
                   );
-                },
-              );
                 },
               ),
             ],

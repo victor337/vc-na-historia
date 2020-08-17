@@ -56,6 +56,7 @@ class PhotosForm extends StatelessWidget {
                   }
                 ),
               ),
+              const SizedBox(height: 10,),
               Visibility(
                 visible: formControll.isLoadingImages,
                 child: const LinearProgressIndicator(

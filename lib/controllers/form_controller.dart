@@ -1,23 +1,10 @@
 import 'dart:io';
-
 import 'package:get/get.dart';
-import 'package:vcnahistoria/models/tile_facts.dart';
 
 
 class FormController extends GetxController {
 
   List<File> images = [];
-  List<TileFacts> facts = [];
-
-  void addFact(TileFacts newFact){
-    facts.add(newFact);
-    update();
-  }
-
-  void removeFact(int index){
-    facts.removeAt(index);
-    update();
-  }
 
   bool isLoadingImages = false;
   void setLoadingImages(){
@@ -65,6 +52,12 @@ class FormController extends GetxController {
     update();
   }
 
+  String tyme = 'D.C.';
+  void setTyme(String settyme){
+    tyme = settyme;
+    update();
+  }
+
   void cleanAll(){
     images = [];
     data = null;
@@ -72,6 +65,7 @@ class FormController extends GetxController {
     person = null;
     local = null;
     details = null;
+    tyme = null;
     update();
   }
 

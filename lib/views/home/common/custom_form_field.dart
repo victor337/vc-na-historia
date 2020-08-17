@@ -14,6 +14,7 @@ class CustomFormField extends StatelessWidget {
   final Function(String) onChanged;
   final Function(String) onSubmit;
   final double height;
+  final int maxLenght;
 
   const CustomFormField({
     @required this.initialValue,
@@ -26,6 +27,7 @@ class CustomFormField extends StatelessWidget {
     @required this.onChanged,
     @required this.onSubmit,
     this.height,
+    this.maxLenght
   });
 
 
@@ -35,6 +37,7 @@ class CustomFormField extends StatelessWidget {
       height: height,
       margin: const EdgeInsets.only(bottom: 15),
       child: TextFormField(
+        maxLength: maxLenght,
         initialValue: initialValue,
         focusNode: focusNode,
         textInputAction: textInputAction,
@@ -42,6 +45,7 @@ class CustomFormField extends StatelessWidget {
         onChanged: onChanged,
         onFieldSubmitted: onSubmit,
         decoration: InputDecoration(
+          counterText: '',
           border: const OutlineInputBorder(
             borderSide: BorderSide(
               width: 2

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vcnahistoria/common/custom_drawer.dart';
-import 'package:vcnahistoria/controllers/form_controller.dart';
+import 'package:vcnahistoria/controllers/data_controller.dart';
 import 'package:vcnahistoria/views/historic/components/facts_widget.dart';
 
 
@@ -27,10 +27,10 @@ class HistoricScreen extends StatelessWidget {
       ),
       body: Container(
         color: const Color.fromARGB(255, 30, 30, 30),
-        child: GetBuilder<FormController>(
-          init: FormController(),
-          builder: (formControll){
-            if(formControll.facts.isEmpty){
+        child: GetBuilder<DataController>(
+          init: DataController(),
+          builder: (dataController){
+            if(dataController.facts.isEmpty){
               return Center(
                 child: Card(
                   child: Padding(
@@ -49,11 +49,12 @@ class HistoricScreen extends StatelessWidget {
                 ),
               );
             } else {
+              dataController.setFacts();
               return ListView.builder(
               padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-              itemCount: formControll.facts.length,
+              itemCount: dataController.facts.length,
               itemBuilder: (ctx, index){
-                return FactsWidget(formControll.facts[index], index);
+                return FactsWidget(dataController.facts[index], index);
               }
             );
             }

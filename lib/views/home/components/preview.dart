@@ -34,7 +34,7 @@ class Preview extends StatelessWidget {
                     Text(
                       formControll.local??'Local',
                       style: TextStyle(
-                        color: formControll.local.toLowerCase() == 'brasil' ? Colors.green : Colors.black
+                        color: formControll.local?.toLowerCase() == 'brasil' ? Colors.green : Colors.black
                       ),
                     ),
                   ],

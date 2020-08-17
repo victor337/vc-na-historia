@@ -11,6 +11,7 @@ class TileFacts {
   String local;
   List<File> images;
   String details;
+  String tyme;
 
   TileFacts({
     @required this.date,
@@ -20,6 +21,7 @@ class TileFacts {
     @required this.local,
     @required this.images,
     @required this.details,
+    @required this.tyme
   });
 
 

@@ -5,10 +5,12 @@ class DetailsWidget extends StatelessWidget {
   
   final String title;
   final String value;
+  final String tyme;
 
   const DetailsWidget({
     @required this.title,
     @required this.value,
+    this.tyme
   });
 
   @override
@@ -24,13 +26,22 @@ class DetailsWidget extends StatelessWidget {
               fontSize: 15,
             ),
           ),
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 18
-            ),
-          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                value,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 18
+                ),
+              ),
+              Visibility(
+                visible: title == 'Data',
+                child: Text(tyme??''),
+              )
+            ],
+          )
         ],
       ),
     );
