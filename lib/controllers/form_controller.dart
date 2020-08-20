@@ -52,7 +52,7 @@ class FormController extends GetxController {
     update();
   }
 
-  String tyme = 'D.C.';
+  String tyme;
   void setTyme(String settyme){
     tyme = settyme;
     update();

@@ -13,11 +13,25 @@ class FactsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Color setColor(int nume){
+      if(nume >= -4000 && nume <= 475){
+        return Colors.orange;
+      } else if(nume >= 476 && nume <= 1453){
+        return Colors.red;
+      } else if(nume >= 1454 && nume <= 1789){
+        return Colors.blue;
+      } else {
+        return Colors.grey;
+      }
+    }
+
+
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: Colors.white,
+        color: setColor(int.parse(tileFacts.date))
       ),
       child: GetBuilder<DataController>(
         builder: (dataController){
@@ -53,28 +67,28 @@ class FactsWidget extends StatelessWidget {
             title: Text(
               tileFacts.fact,
               style: const TextStyle(
-                color: Colors.black
+                color: Colors.white
               ),
             ),
             subtitle: Row(
               children: [
                 Text(
                   tileFacts.date.replaceAll('-', ''),
-                  style: const TextStyle(
-                    color: Colors.grey
+                  style: TextStyle(
+                    color: Colors.grey[300]
                   ),
                 ),
                 Text(
-                  tileFacts.tyme,
+                  tileFacts.tyme??'',
                   style: TextStyle(
-                    color: tileFacts.tyme == 'A.C.' ? Colors.orange : Colors.blue,
+                    color: Colors.grey[300],
                   ),
                 ),
                 const SizedBox(width: 10,),
                 Text(
                   tileFacts.local,
                   style: TextStyle(
-                    color: tileFacts.local == 'Brasil' ? Colors.green : Colors.purple,
+                    color: tileFacts.local.toLowerCase() == 'brasil' ? Colors.green : Colors.purple,
                   ),
                 ),
               ],
