@@ -54,8 +54,8 @@ class FormAll extends StatelessWidget {
                       }
                     ),
                   ),
+                  const SizedBox(width: 10,),
                   DropDownOption(
-                    title: 'Tempo',
                     options: const ['A.C.', 'D.C.'],
                     onChanged: formControll.setTyme,
                     value: formControll.tyme??'D.C.',
@@ -92,20 +92,20 @@ class FormAll extends StatelessWidget {
                   FocusScope.of(context).requestFocus(focusLocal);
                 }
               ),
-              CustomFormField(
-                initialValue: formControll.local,
-                hintText: 'Digite aqui',
-                labelText: 'Local',
-                focusNode: focusLocal,
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.text,
-                textInputFormatter: const [
+              Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Local'
+                    )
+                  ),
+                  DropDownOption(
+                    options: const ['Selecione','Brasil', 'América do Norte', 'Europa',
+                      'América do Sul', 'Ásia', 'Africa'],
+                    onChanged: formControll.setlocalDrop,
+                    value: formControll.localDrop??'Selecione',
+                  ),
                 ],
-                onChanged: formControll.setlocal,
-                onSubmit: (text){
-                  focusLocal.unfocus();
-                  FocusScope.of(context).requestFocus(focusDetails);
-                }
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),

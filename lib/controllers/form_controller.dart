@@ -40,12 +40,6 @@ class FormController extends GetxController {
     update();
   }
 
-  String local;
-  void setlocal(String newlocal){
-    local = newlocal;
-    update();
-  }
-
   String details;
   void setdetails(String newdetails){
     details = newdetails;
@@ -58,21 +52,28 @@ class FormController extends GetxController {
     update();
   }
 
+  String localDrop;
+  void setlocalDrop(String setlocalDrop){
+    localDrop = setlocalDrop;
+    update();
+  }
+
   void cleanAll(){
     images = [];
     data = null;
     fato = null;
     person = null;
-    local = null;
     details = null;
     tyme = null;
+    localDrop = 'Selecione';
     update();
   }
 
   bool isValid(){
     return data != null && data != '' && fato != null && 
       fato != '' && person != null && person != '' && 
-      local != null && local != '' && details != null && details != '';
+      details != null && details != '' &&
+      localDrop != 'Selecione';
   }
 
 }

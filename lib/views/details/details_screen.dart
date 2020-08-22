@@ -21,8 +21,20 @@ class DetailsScreen extends StatelessWidget {
       return '$day/$month/$year';
     }
 
+    Color setColor(int nume){
+      if(nume >= -4000 && nume <= 475){
+        return Colors.orange;
+      } else if(nume >= 476 && nume <= 1453){
+        return Colors.red;
+      } else if(nume >= 1454 && nume <= 1789){
+        return Colors.blue;
+      } else {
+        return Colors.grey;
+      }
+    }
+
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      backgroundColor: setColor(int.parse(tileFacts.date)),
       appBar: AppBar(
         elevation: 0,
         title: Text(
@@ -30,7 +42,7 @@ class DetailsScreen extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: const Color.fromARGB(255, 30, 30, 30),
+        color: setColor(int.parse(tileFacts.date)),
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
           children: [
@@ -60,7 +72,8 @@ class DetailsScreen extends StatelessWidget {
                     child: FadeInImage(
                       fadeInDuration: const Duration(milliseconds: 500),
                       placeholder: const AssetImage('assets/transparent.png'),
-                      image: FileImage(tileFacts.images[index],)
+                      image: FileImage(tileFacts.images[index],),
+                      fit: BoxFit.cover,
                     ),
                   );
                 }
@@ -91,10 +104,6 @@ class DetailsScreen extends StatelessWidget {
                         DetailsWidget(
                           title: 'Personagem',
                           value: tileFacts.character
-                        ),
-                        DetailsWidget(
-                          title: 'Local',
-                          value: tileFacts.local
                         ),
                       ],
                     ),

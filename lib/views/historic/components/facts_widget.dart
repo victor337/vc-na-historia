@@ -14,24 +14,27 @@ class FactsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Color setColor(int nume){
-      if(nume >= -4000 && nume <= 475){
-        return Colors.orange;
-      } else if(nume >= 476 && nume <= 1453){
+    Color setColorLocal(String local){
+      if(local == 'Brasil'){
+        return Colors.green;
+      } else if(local == 'América do Norte'){
         return Colors.red;
-      } else if(nume >= 1454 && nume <= 1789){
+      } else if(local == 'Europa'){
+        return Colors.orange;
+      }  else if(local == 'América do Sul'){
         return Colors.blue;
+      } else if(local == 'Ásia'){
+        return Colors.grey[600];
       } else {
-        return Colors.grey;
+        return Colors.yellow[800];
       }
     }
-
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: setColor(int.parse(tileFacts.date))
+        color: setColorLocal(tileFacts.localDrop)
       ),
       child: GetBuilder<DataController>(
         builder: (dataController){
@@ -84,11 +87,11 @@ class FactsWidget extends StatelessWidget {
                     color: Colors.grey[300],
                   ),
                 ),
-                const SizedBox(width: 10,),
+                const SizedBox(width: 5,),
                 Text(
-                  tileFacts.local,
+                  tileFacts.localDrop??'',
                   style: TextStyle(
-                    color: tileFacts.local.toLowerCase() == 'brasil' ? Colors.green : Colors.purple,
+                    color: Colors.grey[300],
                   ),
                 ),
               ],

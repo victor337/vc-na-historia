@@ -8,7 +8,6 @@ import 'package:vcnahistoria/controllers/form_controller.dart';
 import 'package:vcnahistoria/models/tile_facts.dart';
 import 'package:vcnahistoria/views/home/components/form_all.dart';
 import 'package:vcnahistoria/views/home/components/photos_fomr.dart';
-import 'package:vcnahistoria/views/home/components/preview.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -46,9 +45,9 @@ class HomeScreen extends StatelessWidget {
                                   saveData: DateTime.now().toString(),
                                   fact: formControll.fato,
                                   character: formControll.person,
-                                  local: formControll.local,
                                   images: formControll.images,
                                   details: formControll.details,
+                                  localDrop: formControll.localDrop,
                                 );
 
                                 dataController.addFact(newFact);
@@ -95,8 +94,6 @@ class HomeScreen extends StatelessWidget {
               FormAll(),
               const SizedBox(height: 15,),
               PhotosForm(),
-              const SizedBox(height: 15,),
-              Preview(),
             ],
           ),
         ),

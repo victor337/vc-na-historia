@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 
 class DropDownOption extends StatelessWidget {
 
-  final String title;
   final List<String> options;
   final Function(String) onChanged;
   final String value;
   
   const DropDownOption({
-    @required this.title,
     @required this.options,
     @required this.onChanged,
     @required this.value,
@@ -28,7 +26,6 @@ class DropDownOption extends StatelessWidget {
           ),
           child: DropdownButton<String>(
             dropdownColor: Colors.white,
-            isDense: true,
             underline: Visibility(visible: false, child: Container()),
             items: options.map((String dropDownStringItem){
               return DropdownMenuItem<String>(
