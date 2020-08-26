@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vcnahistoria/controllers/data_controller.dart';
@@ -31,7 +33,7 @@ class DetailsScreen extends StatelessWidget {
       } else {
         return Colors.grey;
       }
-    }
+    }    
 
     return Scaffold(
       backgroundColor: setColor(int.parse(tileFacts.date)),
@@ -72,7 +74,7 @@ class DetailsScreen extends StatelessWidget {
                     child: FadeInImage(
                       fadeInDuration: const Duration(milliseconds: 500),
                       placeholder: const AssetImage('assets/transparent.png'),
-                      image: FileImage(tileFacts.images[index],),
+                      image: FileImage(File(tileFacts.images[index] as String)),
                       fit: BoxFit.cover,
                     ),
                   );
@@ -92,18 +94,13 @@ class DetailsScreen extends StatelessWidget {
                           value: tileFacts.fact
                         ),
                         DetailsWidget(
+                          title: 'Personagem',
+                          value: tileFacts.character
+                        ),
+                        DetailsWidget(
                           title: 'Data',
                           value: tileFacts.date,
                           tyme: tileFacts.tyme,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 40,),
-                    Row(
-                      children: [
-                        DetailsWidget(
-                          title: 'Personagem',
-                          value: tileFacts.character
                         ),
                       ],
                     ),

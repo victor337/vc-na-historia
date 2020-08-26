@@ -43,12 +43,12 @@ class HistoricScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: const [
                                 InfoWidget(
-                                  title: 'Idade antiga',
-                                  color: Colors.orange
+                                  title: 'Brasil',
+                                  color: Colors.green
                                 ),
                                 InfoWidget(
-                                  title: 'Idade média',
-                                  color: Colors.red
+                                  title: 'Ásia',
+                                  color: Colors.grey
                                 ),
                               ],
                             ),
@@ -57,12 +57,16 @@ class HistoricScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: const [
                                 InfoWidget(
-                                  title: 'Idade moderna',
+                                  title: 'Europa',
+                                  color: Colors.orange
+                                ),
+                                InfoWidget(
+                                  title: 'América do Sul',
                                   color: Colors.blue
                                 ),
                                 InfoWidget(
-                                  title: 'Idade contemporânea',
-                                  color: Colors.grey
+                                  title: 'América do norte',
+                                  color: Colors.red
                                 ),
                               ],
                             ),

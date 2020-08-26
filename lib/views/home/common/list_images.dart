@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vcnahistoria/controllers/form_controller.dart';
@@ -6,7 +7,7 @@ import 'package:vcnahistoria/controllers/form_controller.dart';
 
 class ListImages extends StatelessWidget {
 
-  final File path;
+  final String path;
   final int index;
   final Function(int) remove;
 
@@ -18,6 +19,7 @@ class ListImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final file = File(path);
     return GetBuilder<FormController>(
       builder: (orderController){
         return Container(
@@ -55,7 +57,7 @@ class ListImages extends StatelessWidget {
               );
             },
             child: Image.file(
-              path,
+              file,
               fit: BoxFit.cover,
             ),
           ),

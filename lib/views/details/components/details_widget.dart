@@ -23,6 +23,7 @@ class DetailsWidget extends StatelessWidget {
             title,
             style: const TextStyle(
               color: Colors.black,
+              fontWeight: FontWeight.bold,
               fontSize: 15,
             ),
           ),

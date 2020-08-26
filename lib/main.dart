@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:vcnahistoria/bindings/data_bindig.dart';
 import 'package:vcnahistoria/views/base/base_screen.dart';
 import 'package:vcnahistoria/views/splash/splash_screen.dart';
 
-void main() {
+Future<void> main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,

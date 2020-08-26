@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vcnahistoria/views/base/base_screen.dart';
+import 'package:vcnahistoria/controllers/splash_controller.dart';
 
 
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
+class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,25 +25,21 @@ class _SplashScreenState extends State<SplashScreen> {
                   fit: BoxFit.contain,
                 ),
               ),
-              const Text(
-                'Você na história',
-                style: TextStyle(
-                  fontSize: 20
-                ),
-              )
+              GetBuilder<SplashController>(
+                init: SplashController(),
+                builder: (splashController){
+                  return const Text(
+                    'Você na história',
+                    style: TextStyle(
+                      fontSize: 20
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
-  @override
-  void initState() {
-    Future.delayed(const Duration(seconds: 3)).then((value){
-      Get.to(BaseScreen());
-    });
-    super.initState();
-  }
-
 }

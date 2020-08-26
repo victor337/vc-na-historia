@@ -20,6 +20,7 @@ class InfoWidget extends StatelessWidget {
             width: 20,
             color: color,
           ),
+          const SizedBox(height: 5,),
           Text(title)
         ],
       ),

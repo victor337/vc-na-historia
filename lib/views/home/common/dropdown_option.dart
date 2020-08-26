@@ -16,28 +16,28 @@ class DropDownOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: DropdownButton<String>(
-            dropdownColor: Colors.white,
-            underline: Visibility(visible: false, child: Container()),
-            items: options.map((String dropDownStringItem){
-              return DropdownMenuItem<String>(
-                value: dropDownStringItem,
-                child: Text(dropDownStringItem),
-              );
-            }).toList(),
-            onChanged: onChanged,
-            value: value,
-          ),
-        ),
-      ],
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: DropdownButton<String>(
+        dropdownColor: Colors.white,
+        underline: Visibility(visible: false, child: Container()),
+        items: options.map((String dropDownStringItem){
+          return DropdownMenuItem<String>(
+            value: dropDownStringItem,
+            child: Text(
+              dropDownStringItem,
+              textAlign: TextAlign.center,
+            ),
+          );
+        }).toList(),
+        onChanged: onChanged,
+        value: value,
+      ),
     );
   }
 }

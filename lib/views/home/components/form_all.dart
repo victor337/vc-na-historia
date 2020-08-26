@@ -89,23 +89,26 @@ class FormAll extends StatelessWidget {
                 onChanged: formControll.setperson,
                 onSubmit: (text){
                   focusPerso.unfocus();
-                  FocusScope.of(context).requestFocus(focusLocal);
+                  FocusScope.of(context).requestFocus(focusDetails);
                 }
               ),
-              Row(
-                children: [
-                  const Expanded(
-                    child: Text(
-                      'Local'
-                    )
-                  ),
-                  DropDownOption(
-                    options: const ['Selecione','Brasil', 'América do Norte', 'Europa',
-                      'América do Sul', 'Ásia', 'Africa'],
-                    onChanged: formControll.setlocalDrop,
-                    value: formControll.localDrop??'Selecione',
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        'Local'
+                      )
+                    ),
+                    DropDownOption(
+                      options: const ['Selecione','Brasil', 'América do Norte', 'Europa',
+                        'América do Sul', 'Ásia', 'Africa'],
+                      onChanged: formControll.setlocalDrop,
+                      value: formControll.localDrop??'Selecione',
+                    ),
+                  ],
+                ),
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),

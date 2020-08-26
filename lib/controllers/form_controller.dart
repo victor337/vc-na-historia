@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 class FormController extends GetxController {
 
-  List<File> images = [];
+  List<String> images = [];
 
   bool isLoadingImages = false;
   void setLoadingImages(){
@@ -13,7 +13,7 @@ class FormController extends GetxController {
   }
 
   void addImageAccount(File file){
-    images.add(file);
+    images.add(file.path);
     update();
   }
 
