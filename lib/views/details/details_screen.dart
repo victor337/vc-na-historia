@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vcnahistoria/controllers/data_controller.dart';
 import 'package:vcnahistoria/models/tile_facts.dart';
+import 'package:vcnahistoria/views/details/components/add_image.dart';
 import 'package:vcnahistoria/views/details/components/details_widget.dart';
+import 'package:vcnahistoria/views/details/components/images_widegt.dart';
 
 
 class DetailsScreen extends StatelessWidget {
@@ -23,20 +25,8 @@ class DetailsScreen extends StatelessWidget {
       return '$day/$month/$year';
     }
 
-    Color setColor(int nume){
-      if(nume >= -4000 && nume <= 475){
-        return Colors.orange;
-      } else if(nume >= 476 && nume <= 1453){
-        return Colors.red;
-      } else if(nume >= 1454 && nume <= 1789){
-        return Colors.blue;
-      } else {
-        return Colors.grey;
-      }
-    }    
-
     return Scaffold(
-      backgroundColor: setColor(int.parse(tileFacts.date)),
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
       appBar: AppBar(
         elevation: 0,
         title: Text(
@@ -44,89 +34,83 @@ class DetailsScreen extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: setColor(int.parse(tileFacts.date)),
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-          children: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-              height: 200,
-              width: MediaQuery.of(context).size.width,
-              child: tileFacts.images.isEmpty ?
-                const Center(
-                  child: Text(
-                    'Não há fotos salvas',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white
+        padding: const EdgeInsets.all(8),
+        color: const Color.fromARGB(255, 30, 30, 30),
+        child: GetBuilder<DataController>(
+          builder: (dataController){
+            return ListView(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+                  height: 200,
+                  width: MediaQuery.of(context).size.width,
+                  child: tileFacts.images.isEmpty ?
+                    const Center(
+                      child: Text(
+                        'Não há fotos salvas',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white
+                        ),
+                      ),
+                    ) :
+                    ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: tileFacts.images.length + 1,
+                    itemBuilder: (ctx, indexImage){
+                      if(indexImage < tileFacts.images.length){
+                        return ImagesWidget(tileFacts, index, indexImage);
+                      } else{
+                          return AddImage();
+                      }
+                    }
+                  ),
+                ),
+                const SizedBox(height: 10,),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 5),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            DetailsWidget(
+                              title: 'Fato',
+                              value: tileFacts.fact
+                            ),
+                            DetailsWidget(
+                              title: 'Personagem',
+                              value: tileFacts.character
+                            ),
+                            DetailsWidget(
+                              title: 'Data',
+                              value: tileFacts.date,
+                              tyme: tileFacts.tyme,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20,),
+                        Row(
+                          children: [
+                            DetailsWidget(
+                              title: 'Detalhes',
+                              value: tileFacts.details
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 15,),
+                        Text(
+                          'Você salvou este fato em ${setDate(tileFacts.saveData)}',
+                          style: const TextStyle(
+                            color: Colors.grey
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ) :
-                ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: tileFacts.images.length,
-                itemBuilder: (ctx, index){
-                  return Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 0.5, color: Colors.white)
-                    ),
-                    child: FadeInImage(
-                      fadeInDuration: const Duration(milliseconds: 500),
-                      placeholder: const AssetImage('assets/transparent.png'),
-                      image: FileImage(File(tileFacts.images[index] as String)),
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                }
-              ),
-            ),
-            const SizedBox(height: 10,),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 5),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        DetailsWidget(
-                          title: 'Fato',
-                          value: tileFacts.fact
-                        ),
-                        DetailsWidget(
-                          title: 'Personagem',
-                          value: tileFacts.character
-                        ),
-                        DetailsWidget(
-                          title: 'Data',
-                          value: tileFacts.date,
-                          tyme: tileFacts.tyme,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20,),
-                    Row(
-                      children: [
-                        DetailsWidget(
-                          title: 'Detalhes',
-                          value: tileFacts.details
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15,),
-                    Text(
-                      'Você salvou este fato em ${setDate(tileFacts.saveData)}',
-                      style: const TextStyle(
-                        color: Colors.grey
-                      ),
-                    ),
-                  ],
                 ),
-              ),
-            ),
-            GetBuilder<DataController>(
-              builder: (dataController){
-                return Padding(
+                Padding(
                   padding: const EdgeInsets.fromLTRB(80, 0, 80, 0),
                   child: RaisedButton(
                     color: Colors.red,
@@ -182,10 +166,10 @@ class DetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                );
-              },
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

@@ -28,9 +28,9 @@ class SplashScreen extends StatelessWidget {
               GetBuilder<SplashController>(
                 init: SplashController(),
                 builder: (splashController){
-                  return const Text(
-                    'Você na história',
-                    style: TextStyle(
+                  return Text(
+                    '${splashController.name} na história',
+                    style: const TextStyle(
                       fontSize: 20
                     ),
                   );

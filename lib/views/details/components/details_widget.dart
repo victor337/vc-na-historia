@@ -21,6 +21,7 @@ class DetailsWidget extends StatelessWidget {
         children: [
           Text(
             title,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
@@ -30,11 +31,14 @@ class DetailsWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                value,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 18
+              Flexible(
+                child: Text(
+                  value,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18
+                  ),
                 ),
               ),
               Visibility(

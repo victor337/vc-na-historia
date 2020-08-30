@@ -1,10 +1,15 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:vcnahistoria/views/payment.dart';
 
 class SplashController extends GetxController {
+
+  String name;
+
+  GetStorage box = GetStorage();
   
   Future<void> getPhotoValid() async{
     final response = await http.get(
@@ -20,9 +25,15 @@ class SplashController extends GetxController {
     }
   }
 
+  void readName(){
+    name = box.read('name')??'Você';
+    update();
+  }
+
   @override
   void onInit() {
     getPhotoValid();
+    readName();
     super.onInit();
   }
 

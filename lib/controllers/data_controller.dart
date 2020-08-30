@@ -10,6 +10,25 @@ class DataController extends GetxController {
 
   GetStorage box = GetStorage();
 
+  String name;
+
+  void setName(String setname){
+    name = setname;
+    box.write('name', setname);
+    update();
+  }
+
+  void removeImageFromIndex(int factsTile, int indexFact){
+    facts[factsTile].images.removeAt(indexFact);
+    update();
+    saveData();
+  }
+
+  void readName(){
+    name = box.read('name')??'Você';
+    update();
+  }
+
   void setFacts(){
     facts.sort((a, b){
       return a.date.compareTo(b.date);
@@ -69,6 +88,7 @@ class DataController extends GetxController {
   @override
   void onInit() {
     readData();
+    readName();
     super.onInit();
   }
   
