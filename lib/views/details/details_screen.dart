@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vcnahistoria/controllers/data_controller.dart';
@@ -7,10 +5,12 @@ import 'package:vcnahistoria/models/tile_facts.dart';
 import 'package:vcnahistoria/views/details/components/add_image.dart';
 import 'package:vcnahistoria/views/details/components/details_widget.dart';
 import 'package:vcnahistoria/views/details/components/images_widegt.dart';
+import 'package:vcnahistoria/views/edit/edit_screen.dart';
 
 
-class DetailsScreen extends StatelessWidget {
 
+class DetailsScreen extends StatelessWidget{
+  
   final TileFacts tileFacts;
   final int index;
   const DetailsScreen(this.tileFacts, this.index);
@@ -32,6 +32,17 @@ class DetailsScreen extends StatelessWidget {
         title: Text(
           'Detalhes: ${tileFacts.fact}'
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.edit,
+              color: Colors.grey
+            ),
+            onPressed: (){
+              Get.to(EditScreen(tileFacts));
+            }
+          )
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.all(8),
@@ -46,14 +57,10 @@ class DetailsScreen extends StatelessWidget {
                   height: 200,
                   width: MediaQuery.of(context).size.width,
                   child: tileFacts.images.isEmpty ?
-                    const Center(
-                      child: Text(
-                        'Não há fotos salvas',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white
-                        ),
-                      ),
+                    AddImage(
+                      addImage: (file){
+                        dataController.addImageFromIndex(index, file);
+                      },
                     ) :
                     ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -62,11 +69,20 @@ class DetailsScreen extends StatelessWidget {
                       if(indexImage < tileFacts.images.length){
                         return ImagesWidget(tileFacts, index, indexImage);
                       } else{
-                          return AddImage();
+                        return AddImage(
+                          addImage: (file){
+                            dataController.addImageFromIndex(index, file);
+                          },
+                        );
                       }
                     }
                   ),
                 ),
+                if(dataController.imageLoading)
+                  const LinearProgressIndicator(
+                    backgroundColor: Colors.transparent,
+                    valueColor: AlwaysStoppedAnimation(Colors.grey),
+                  ),
                 const SizedBox(height: 10,),
                 Card(
                   child: Padding(

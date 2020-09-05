@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vcnahistoria/controllers/form_controller.dart';
-import 'package:vcnahistoria/views/home/common/custom_form_field.dart';
+import 'package:vcnahistoria/common/custom_form_field.dart';
 import 'package:vcnahistoria/views/home/common/dropdown_option.dart';
 
 

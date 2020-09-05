@@ -100,7 +100,7 @@ class AddPhoto extends StatelessWidget {
     }
 
     return GetBuilder<FormController>(
-      builder: (orderController){
+      builder: (formController){
         return GestureDetector(
           onTap: (){
             Get.bottomSheet(
@@ -117,9 +117,9 @@ class AddPhoto extends StatelessWidget {
                         GestureDetector(
                           onTap: ()async{
                             Navigator.of(context).pop();
-                            orderController.setLoadingImages();
+                            formController.setLoadingImages();
                             await saveImage(1);
-                            orderController.setLoadingImages();
+                            formController.setLoadingImages();
                           },
                           child: Container(
                             height: 50,
@@ -136,9 +136,9 @@ class AddPhoto extends StatelessWidget {
                         GestureDetector(
                           onTap: ()async{
                             Navigator.of(context).pop();
-                            orderController.setLoadingImages();
+                            formController.setLoadingImages();
                             await saveImage(2);
-                            orderController.setLoadingImages();
+                            formController.setLoadingImages();
                           },
                           child: Container(
                             height: 50,

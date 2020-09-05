@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vcnahistoria/models/tile_facts.dart';
@@ -12,6 +14,12 @@ class DataController extends GetxController {
 
   String name;
 
+  bool imageLoading = false;
+  void setLoadingImages(){
+    imageLoading = !imageLoading;
+    update();
+  }
+
   void setName(String setname){
     name = setname;
     box.write('name', setname);
@@ -20,6 +28,12 @@ class DataController extends GetxController {
 
   void removeImageFromIndex(int factsTile, int indexFact){
     facts[factsTile].images.removeAt(indexFact);
+    update();
+    saveData();
+  }
+
+  void addImageFromIndex(int factsTileIndex, File image){
+    facts[factsTileIndex].images.add(image.path);
     update();
     saveData();
   }
