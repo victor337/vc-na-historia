@@ -110,6 +110,10 @@ class DetailsScreen extends StatelessWidget{
                         Row(
                           children: [
                             DetailsWidget(
+                              title: 'Local',
+                              value: tileFacts.localDrop.toString()
+                            ),
+                            DetailsWidget(
                               title: 'Detalhes',
                               value: tileFacts.details
                             ),

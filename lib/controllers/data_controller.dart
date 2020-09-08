@@ -9,6 +9,44 @@ class DataController extends GetxController {
 
   TileFacts tileFacts;
   List<TileFacts> facts = [];
+  
+  List<TileFacts> factsFiltered = [];
+
+  String filter = '';
+  void setFilter(String newFilter){
+    filter = newFilter;
+    if(filter == null || filter == ''){
+      factsFiltered.clear();
+    }
+    update();
+    filterFacts();
+  }
+
+  void filterFacts(){
+    factsFiltered.clear();
+    if(filter != null && filter != ''){
+      for(final fact in facts){
+        if( 
+          fact.fact.toLowerCase().contains(filter.toLowerCase()) ||
+          fact.localDrop.toLowerCase().contains(filter.toLowerCase()) ||
+          fact.saveData.toLowerCase().contains(filter.toLowerCase()) ||
+          fact.tyme.toLowerCase().contains(filter.toLowerCase()) ||
+          fact.character.toLowerCase().contains(filter.toLowerCase()) ||
+          fact.date.toString().toLowerCase().contains(filter.toLowerCase()) ||
+          fact.details.toLowerCase().contains(filter.toLowerCase())
+        ){
+          factsFiltered.add(fact);
+        }
+      }
+    }
+    update();
+  }
+
+  void setFactsFilter(){
+    factsFiltered.sort((a, b){
+      return a.date.compareTo(b.date);
+    });
+  }
 
   GetStorage box = GetStorage();
 

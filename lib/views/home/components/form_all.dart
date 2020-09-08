@@ -58,7 +58,7 @@ class FormAll extends StatelessWidget {
                   DropDownOption(
                     options: const ['A.C.', 'D.C.'],
                     onChanged: formControll.setTyme,
-                    value: formControll.tyme??'D.C.',
+                    value: formControll.tyme,
                   ),
                 ],
               ),
