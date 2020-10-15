@@ -62,7 +62,7 @@ class HistoricScreen extends StatelessWidget {
                   ),
                 ),
               );
-            } else if(dataController.factsFiltered.isNotEmpty){
+            } else if(dataController.factsFiltered.isNotEmpty && dataController.filter != ''){
               dataController.setFactsFilter();
               return Column(
                 mainAxisSize: MainAxisSize.min,

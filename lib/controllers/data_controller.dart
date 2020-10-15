@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vcnahistoria/models/tile_facts.dart';
@@ -52,6 +53,30 @@ class DataController extends GetxController {
 
   String name;
 
+  
+  void removeImageFromIndex(int factsTile, int indexFact){
+    facts[factsTile].images.removeAt(indexFact);
+    update();
+    saveData();
+  }
+
+  //Editar fact
+  void editFactIndex({@required int factsTile, @required TileFacts newFact}){
+    facts[factsTile].character = newFact.character;
+    facts[factsTile].date = newFact.date;
+    facts[factsTile].details = newFact.details;
+    facts[factsTile].fact = newFact.fact;
+    facts[factsTile].images.clear();
+    for(final image in newFact.images??[]){
+      facts[factsTile].images.add(image);
+    }
+    facts[factsTile].localDrop = newFact.localDrop;
+    facts[factsTile].saveData = newFact.saveData;
+    facts[factsTile].tyme = newFact.tyme;    
+    update();
+    saveData();
+  }
+
   bool imageLoading = false;
   void setLoadingImages(){
     imageLoading = !imageLoading;
@@ -63,13 +88,6 @@ class DataController extends GetxController {
     box.write('name', setname);
     update();
   }
-
-  void removeImageFromIndex(int factsTile, int indexFact){
-    facts[factsTile].images.removeAt(indexFact);
-    update();
-    saveData();
-  }
-
   void addImageFromIndex(int factsTileIndex, File image){
     facts[factsTileIndex].images.add(image.path);
     update();

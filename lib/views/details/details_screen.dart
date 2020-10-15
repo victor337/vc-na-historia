@@ -1,10 +1,12 @@
+import 'dart:io';
+
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vcnahistoria/controllers/data_controller.dart';
+import 'package:vcnahistoria/controllers/edit_controller.dart';
 import 'package:vcnahistoria/models/tile_facts.dart';
-import 'package:vcnahistoria/views/details/components/add_image.dart';
 import 'package:vcnahistoria/views/details/components/details_widget.dart';
-import 'package:vcnahistoria/views/details/components/images_widegt.dart';
 import 'package:vcnahistoria/views/edit/edit_screen.dart';
 
 
@@ -13,7 +15,9 @@ class DetailsScreen extends StatelessWidget{
   
   final TileFacts tileFacts;
   final int index;
-  const DetailsScreen(this.tileFacts, this.index);
+  DetailsScreen(this.tileFacts, this.index);
+
+  final EditController controller = Get.put(EditController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,8 @@ class DetailsScreen extends StatelessWidget{
               color: Colors.grey
             ),
             onPressed: (){
-              Get.to(EditScreen(tileFacts));
+              Get.to(EditScreen(tileFacts, index));
+              controller.initImages(tileFacts.images);
             }
           )
         ],
@@ -53,36 +58,26 @@ class DetailsScreen extends StatelessWidget{
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               children: [
                 Container(
-                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
                   height: 200,
-                  width: MediaQuery.of(context).size.width,
-                  child: tileFacts.images.isEmpty ?
-                    AddImage(
-                      addImage: (file){
-                        dataController.addImageFromIndex(index, file);
-                      },
-                    ) :
-                    ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: tileFacts.images.length + 1,
-                    itemBuilder: (ctx, indexImage){
-                      if(indexImage < tileFacts.images.length){
-                        return ImagesWidget(tileFacts, index, indexImage);
-                      } else{
-                        return AddImage(
-                          addImage: (file){
-                            dataController.addImageFromIndex(index, file);
-                          },
-                        );
-                      }
-                    }
-                  ),
+                  child: tileFacts.images.isNotEmpty ?  Carousel(
+                    autoplay: false,
+                    dotColor: const Color.fromARGB(255, 30, 30, 30),
+                    dotBgColor: Colors.transparent,
+                    images: tileFacts.images.map((e) =>
+                      Image.file(
+                        File(e as String),
+                        fit: BoxFit.cover,
+                      ),
+                    ).toList()
+                  ) : const Center(
+                    child: Text(
+                      'Não há fotos adicionadas',
+                      style: TextStyle(
+                        color: Colors.white
+                      ),
+                    ),
+                  )
                 ),
-                if(dataController.imageLoading)
-                  const LinearProgressIndicator(
-                    backgroundColor: Colors.transparent,
-                    valueColor: AlwaysStoppedAnimation(Colors.grey),
-                  ),
                 const SizedBox(height: 10,),
                 Card(
                   child: Padding(
@@ -121,7 +116,7 @@ class DetailsScreen extends StatelessWidget{
                         ),
                         const SizedBox(height: 15,),
                         Text(
-                          'Você salvou este fato em ${setDate(tileFacts.saveData)}',
+                          'Última modificação em: ${setDate(tileFacts.saveData)}',
                           style: const TextStyle(
                             color: Colors.grey
                           ),
@@ -130,60 +125,57 @@ class DetailsScreen extends StatelessWidget{
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(80, 0, 80, 0),
-                  child: RaisedButton(
-                    color: Colors.red,
-                    onPressed: (){
-                      Get.dialog(
-                        AlertDialog(
-                          title: const Text('Atenção'),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Text('Realmente deseja apagar?'),
-                              const SizedBox(height: 20,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  RaisedButton(
-                                    color: Colors.red,
-                                    onPressed: (){
-                                      dataController.removeFact(index);
-                                      Get.back();
-                                      Get.back();
-                                    },
-                                    child: const Text(
-                                      'Sim',
-                                      style: TextStyle(
-                                        color: Colors.white
-                                      ),
+                RaisedButton(
+                  color: Colors.red,
+                  onPressed: (){
+                    Get.dialog(
+                      AlertDialog(
+                        title: const Text('Atenção'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text('Realmente deseja apagar?'),
+                            const SizedBox(height: 20,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RaisedButton(
+                                  color: Colors.red,
+                                  onPressed: (){
+                                    dataController.removeFact(index);
+                                    Get.back();
+                                    Get.back();
+                                  },
+                                  child: const Text(
+                                    'Sim',
+                                    style: TextStyle(
+                                      color: Colors.white
                                     ),
                                   ),
-                                  RaisedButton(
-                                    color: Colors.blue,
-                                    onPressed: (){
-                                      Get.back();
-                                    },
-                                    child: const Text(
-                                      'Não',
-                                      style: TextStyle(
-                                        color: Colors.white
-                                      ),
+                                ),
+                                RaisedButton(
+                                  color: Colors.blue,
+                                  onPressed: (){
+                                    Get.back();
+                                  },
+                                  child: const Text(
+                                    'Não',
+                                    style: TextStyle(
+                                      color: Colors.white
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
-                      );                    
-                    },
-                    child: const Text(
-                      'Apagar',
-                      style: TextStyle(
-                        color: Colors.white
-                      ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    );                    
+                  },
+                  child: const Text(
+                    'Apagar',
+                    style: TextStyle(
+                      color: Colors.white
                     ),
                   ),
                 ),
