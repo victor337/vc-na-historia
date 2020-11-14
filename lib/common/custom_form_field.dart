@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 class CustomFormField extends StatelessWidget {
-
   final String initialValue;
   final String hintText;
   final String labelText;
@@ -32,14 +30,13 @@ class CustomFormField extends StatelessWidget {
     this.maxLines,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
       margin: const EdgeInsets.only(bottom: 15),
       child: TextFormField(
-        maxLines: maxLines??1,
+        maxLines: maxLines ?? 1,
         maxLength: maxLenght,
         initialValue: initialValue,
         focusNode: focusNode,
@@ -49,11 +46,7 @@ class CustomFormField extends StatelessWidget {
         onFieldSubmitted: onSubmit,
         decoration: InputDecoration(
           counterText: '',
-          border: const OutlineInputBorder(
-            borderSide: BorderSide(
-              width: 2
-            )
-          ),
+          border: const OutlineInputBorder(borderSide: BorderSide(width: 2)),
           hintText: hintText,
           labelText: labelText,
         ),

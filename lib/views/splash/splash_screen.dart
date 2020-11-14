@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vcnahistoria/controllers/splash_controller.dart';
 
-
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -11,6 +10,7 @@ class SplashScreen extends StatelessWidget {
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
+          color: const Color(0xfff3e0bf),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -18,21 +18,17 @@ class SplashScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height / 4,
                 child: const FadeInImage(
                   fadeInDuration: Duration(milliseconds: 500),
-                  placeholder: AssetImage(
-                    'assets/transparent.png'
-                  ),
+                  placeholder: AssetImage('assets/transparent.png'),
                   image: AssetImage('assets/history.png'),
                   fit: BoxFit.contain,
                 ),
               ),
               GetBuilder<SplashController>(
                 init: SplashController(),
-                builder: (splashController){
+                builder: (splashController) {
                   return Text(
                     '${splashController.name} na história',
-                    style: const TextStyle(
-                      fontSize: 20
-                    ),
+                    style: const TextStyle(fontSize: 20),
                   );
                 },
               ),

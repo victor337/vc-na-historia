@@ -1,64 +1,74 @@
 import 'dart:io';
 import 'package:get/get.dart';
 
-
 class FormController extends GetxController {
-
   List<String> images = [];
 
   bool isLoadingImages = false;
-  void setLoadingImages(){
+  void setLoadingImages() {
     isLoadingImages = !isLoadingImages;
     update();
   }
 
-  void addImageAccount(File file){
+  void addImageAccount(File file) {
     images.add(file.path);
     update();
   }
 
-  void removeImage(int index){
+  void removeImage(int index) {
     images.removeAt(index);
     update();
   }
-  
+
   String data;
-  void setData(String newData){
+  void setData(String newData) {
     data = newData;
     update();
   }
 
   String fato;
-  void setfato(String newfato){
+  void setfato(String newfato) {
     fato = newfato;
     update();
   }
 
   String person;
-  void setperson(String newperson){
+  void setperson(String newperson) {
     person = newperson;
     update();
   }
 
+  String localdetails;
+  void setlocaldetails(String newlocaldetails) {
+    localdetails = newlocaldetails;
+    update();
+  }
+
   String details;
-  void setdetails(String newdetails){
+  void setdetails(String newdetails) {
     details = newdetails;
     update();
   }
 
-  String tyme = 'D.C.';
-  void setTyme(String settyme){
+  String tyme;
+  void setTyme(String settyme) {
     tyme = settyme;
     update();
   }
 
+  String colordrop;
+  void setcolor(String color) {
+    colordrop = color;
+    update();
+  }
+
   String localDrop;
-  void setlocalDrop(String setlocalDrop){
+  void setlocalDrop(String setlocalDrop) {
     localDrop = setlocalDrop;
     update();
   }
 
-  void cleanAll(){
+  void cleanAll() {
     images = [];
     data = null;
     fato = null;
@@ -69,11 +79,18 @@ class FormController extends GetxController {
     update();
   }
 
-  bool isValid(){
-    return data != null && data != '' && fato != null && 
-      fato != '' && person != null && person != '' && 
-      details != null && details != '' &&
-      localDrop != 'Selecione';
+  bool isValid() {
+    return data != null &&
+        tyme != 'Selecione' &&
+        tyme != null &&
+        localdetails != null &&
+        data != '' &&
+        fato != null &&
+        fato != '' &&
+        person != null &&
+        person != '' &&
+        details != null &&
+        details != '' &&
+        localDrop != 'Selecione';
   }
-
 }

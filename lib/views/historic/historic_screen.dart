@@ -6,7 +6,6 @@ import 'package:vcnahistoria/views/historic/components/button_filter.dart';
 import 'package:vcnahistoria/views/historic/components/facts_widget.dart';
 import 'package:vcnahistoria/views/historic/components/info_sheet.dart';
 
-
 class HistoricScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,11 +19,11 @@ class HistoricScreen extends StatelessWidget {
           children: [
             const Text(
               'Fatos salvos',
-              style: TextStyle(
-                color: Colors.white
-              ),
+              style: TextStyle(color: Colors.white),
             ),
-            const SizedBox(width: 10,),
+            const SizedBox(
+              width: 10,
+            ),
             GestureDetector(
               onTap: () => Get.bottomSheet(InfoSheet()),
               child: Container(
@@ -41,10 +40,11 @@ class HistoricScreen extends StatelessWidget {
       ),
       body: Container(
         color: const Color.fromARGB(255, 30, 30, 30),
+        padding: const EdgeInsets.only(bottom: 10),
         child: GetBuilder<DataController>(
           init: DataController(),
-          builder: (dataController){
-            if(dataController.facts.isEmpty){
+          builder: (dataController) {
+            if (dataController.facts.isEmpty) {
               return Center(
                 child: Card(
                   child: Padding(
@@ -62,46 +62,52 @@ class HistoricScreen extends StatelessWidget {
                   ),
                 ),
               );
-            } else if(dataController.factsFiltered.isNotEmpty && dataController.filter != ''){
+            } else if (dataController.factsFiltered.isNotEmpty &&
+                dataController.filter != '') {
               dataController.setFactsFilter();
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ButtonFilter(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Seu filtro: ${dataController.filter}',
-                        style: const TextStyle(
-                          color: Colors.white
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ButtonFilter(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Seu filtro: ${dataController.filter}',
+                          style: const TextStyle(color: Colors.white),
                         ),
-                      ),
-                      FlatButton(
-                        onPressed: (){
-                          dataController.setFilter('');
-                        },
-                        child: const Text(
-                          'X',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold
+                        FlatButton(
+                          onPressed: () {
+                            dataController.setFilter('');
+                          },
+                          child: const Text(
+                            'X',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        )
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+                        itemCount: dataController.factsFiltered.length,
+                        itemBuilder: (ctx, index) {
+                          return FactsWidget(
+                              dataController.factsFiltered[index], index);
+                        },
                       ),
-                    ],
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-                    itemCount: dataController.factsFiltered.length,
-                    itemBuilder: (ctx, index){
-                      return FactsWidget(dataController.factsFiltered[index], index);
-                    }
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               );
-            } else if(dataController.filter != '' && dataController.factsFiltered.isEmpty){
+            } else if (dataController.filter != '' &&
+                dataController.factsFiltered.isEmpty) {
               return Column(
                 children: [
                   Row(
@@ -109,21 +115,19 @@ class HistoricScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Seu filtro: ${dataController.filter}',
-                        style: const TextStyle(
-                          color: Colors.white
-                        ),
+                        style: const TextStyle(color: Colors.white),
                       ),
                       FlatButton(
-                        onPressed: (){
+                        onPressed: () {
                           dataController.setFilter('');
                         },
                         child: const Text(
                           'X',
                           style: TextStyle(
                             color: Colors.red,
-                            fontWeight: FontWeight.bold
+                            fontWeight: FontWeight.bold,
                           ),
-                        )
+                        ),
                       ),
                     ],
                   ),
@@ -148,19 +152,26 @@ class HistoricScreen extends StatelessWidget {
               );
             } else {
               dataController.setFacts();
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ButtonFilter(),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-                    itemCount: dataController.facts.length,
-                    itemBuilder: (ctx, index){
-                      return FactsWidget(dataController.facts[index], index);
-                    }
-                  ),
-                ],
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ButtonFilter(),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+                        itemCount: dataController.facts.length,
+                        itemBuilder: (ctx, index) {
+                          return FactsWidget(
+                            dataController.facts[index],
+                            index,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               );
             }
           },

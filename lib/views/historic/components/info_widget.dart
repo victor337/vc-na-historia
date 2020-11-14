@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class InfoWidget extends StatelessWidget {
-
   final String title;
   final Color color;
 
@@ -20,8 +19,13 @@ class InfoWidget extends StatelessWidget {
             width: 20,
             color: color,
           ),
-          const SizedBox(height: 5,),
-          Text(title)
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+          )
         ],
       ),
     );

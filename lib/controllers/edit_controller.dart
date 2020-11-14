@@ -3,70 +3,78 @@ import 'dart:io';
 import 'package:get/get.dart';
 
 class EditController extends GetxController {
-
   List<String> images = [];
 
-  void initImages(List<dynamic> imagesEdit){
+  void initImages(List<dynamic> imagesEdit) {
     images.clear();
-    for(final image in imagesEdit){
+    for (final image in imagesEdit) {
       images.add(image as String);
     }
     update();
   }
 
-  void addImageAccount(File path){
+  void addImageAccount(File path) {
     images.add(path.path);
     update();
   }
 
-  void removeImage(int index){
+  void removeImage(int index) {
     images.removeAt(index);
     update();
   }
 
   bool isLoadingImages = false;
 
-  void setLoading(){
+  void setLoading() {
     isLoadingImages = !isLoadingImages;
     update();
   }
 
+  String localdetails;
+  void setlocaldetails(String newlocaldetails) {
+    localdetails = newlocaldetails;
+    update();
+  }
+
   String fact;
-  void setFact(String value){
+  void setFact(String value) {
     fact = value;
     update();
   }
 
   String character;
-  void setcharacter(String value){
+  void setcharacter(String value) {
     character = value;
     update();
   }
 
   String date;
-  void setdate(String value){
+  void setdate(String value) {
     date = value;
     update();
   }
 
-  String local;
-  void setlocal(String value){
-    local = value;
+  String colordrop;
+  void setcolor(String color) {
+    colordrop = color;
+    update();
+  }
+
+  String localDrop;
+  void setlocalDrop(String setlocalDrop) {
+    localDrop = setlocalDrop;
     update();
   }
 
   String details;
-  void setdetails(String value){
+  void setdetails(String value) {
     details = value;
     update();
   }
 
-
   String tyme;
-  void settyme(String value){
+  void settyme(String value) {
     tyme = value;
     update();
   }
-
-
 }

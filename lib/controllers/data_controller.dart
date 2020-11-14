@@ -5,47 +5,65 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vcnahistoria/models/tile_facts.dart';
 
-
 class DataController extends GetxController {
-
   TileFacts tileFacts;
   List<TileFacts> facts = [];
-  
+
   List<TileFacts> factsFiltered = [];
 
   String filter = '';
-  void setFilter(String newFilter){
+  void setFilter(String newFilter) {
     filter = newFilter;
-    if(filter == null || filter == ''){
+    if (filter == null || filter == '') {
       factsFiltered.clear();
+      update();
+    } else if (filter.length > 2) {
+      factsFiltered.clear();
+      factsFiltered.addAll(facts.where((element) =>
+          element.fact.toLowerCase().contains(filter.toLowerCase())));
+      factsFiltered.addAll(facts.where((element) =>
+          element.localDrop.toLowerCase().contains(filter.toLowerCase())));
+      factsFiltered.addAll(facts.where((element) =>
+          element.localDetails.toLowerCase().contains(filter.toLowerCase())));
+      factsFiltered.addAll(facts.where((element) =>
+          element.saveData.toLowerCase().contains(filter.toLowerCase())));
+      factsFiltered.addAll(facts.where((element) => element.date
+          .toString()
+          .toLowerCase()
+          .contains(filter.toLowerCase())));
+      factsFiltered.addAll(facts.where((element) =>
+          element.character.toLowerCase().contains(filter.toLowerCase())));
+      factsFiltered.addAll(facts.where((element) =>
+          element.tyme.toLowerCase().contains(filter.toLowerCase())));
+      factsFiltered.addAll(facts.where((element) =>
+          element.details.toLowerCase().contains(filter.toLowerCase())));
+      update();
     }
-    update();
-    filterFacts();
   }
 
-  void filterFacts(){
-    factsFiltered.clear();
-    if(filter != null && filter != ''){
-      for(final fact in facts){
-        if( 
-          fact.fact.toLowerCase().contains(filter.toLowerCase()) ||
-          fact.localDrop.toLowerCase().contains(filter.toLowerCase()) ||
-          fact.saveData.toLowerCase().contains(filter.toLowerCase()) ||
-          fact.tyme.toLowerCase().contains(filter.toLowerCase()) ||
-          fact.character.toLowerCase().contains(filter.toLowerCase()) ||
-          fact.date.toString().toLowerCase().contains(filter.toLowerCase()) ||
-          fact.details.toLowerCase().contains(filter.toLowerCase())
-        ){
-          factsFiltered.add(fact);
-        }
+  void setFactsFilter() {
+    factsFiltered.sort((a, b) {
+      final int aDay = int.parse(a.date.substring(0, 2));
+      final int aMonth = int.parse(a.date.substring(3, 5));
+      int aYear = int.parse(a.date.substring(6, 10));
+
+      if (a.tyme == 'A.C.') {
+        aYear = int.parse('-$aYear');
       }
-    }
-    update();
-  }
 
-  void setFactsFilter(){
-    factsFiltered.sort((a, b){
-      return a.date.compareTo(b.date);
+      final DateTime aDate = DateTime(aYear, aMonth, aDay);
+
+      final int bDay = int.parse(b.date.substring(0, 2));
+      final int bMonth = int.parse(b.date.substring(3, 5));
+      int bYear = int.parse(b.date.substring(6, 10));
+
+      if (b.tyme == 'A.C.') {
+        bYear = int.parse('-$bYear');
+      }
+
+      final DateTime bDate = DateTime(bYear, bMonth, bDay);
+
+      return aDate.compareTo(bDate);
     });
   }
 
@@ -53,86 +71,103 @@ class DataController extends GetxController {
 
   String name;
 
-  
-  void removeImageFromIndex(int factsTile, int indexFact){
+  void removeImageFromIndex(int factsTile, int indexFact) {
     facts[factsTile].images.removeAt(indexFact);
     update();
     saveData();
   }
 
   //Editar fact
-  void editFactIndex({@required int factsTile, @required TileFacts newFact}){
+  Future<void> editFactIndex({
+    @required int factsTile,
+    @required TileFacts newFact,
+  }) async {
     facts[factsTile].character = newFact.character;
     facts[factsTile].date = newFact.date;
     facts[factsTile].details = newFact.details;
     facts[factsTile].fact = newFact.fact;
+    facts[factsTile].color = newFact.color;
     facts[factsTile].images.clear();
-    for(final image in newFact.images??[]){
+    for (final image in newFact.images ?? []) {
       facts[factsTile].images.add(image);
     }
     facts[factsTile].localDrop = newFact.localDrop;
     facts[factsTile].saveData = newFact.saveData;
-    facts[factsTile].tyme = newFact.tyme;    
+    facts[factsTile].tyme = newFact.tyme;
+    await saveData();
     update();
-    saveData();
   }
 
   bool imageLoading = false;
-  void setLoadingImages(){
+  void setLoadingImages() {
     imageLoading = !imageLoading;
     update();
   }
 
-  void setName(String setname){
+  Future<void> setName(String setname) async {
     name = setname;
-    box.write('name', setname);
+    await box.write('name', setname);
     update();
   }
-  void addImageFromIndex(int factsTileIndex, File image){
+
+  Future<void> addImageFromIndex(int factsTileIndex, File image) async {
     facts[factsTileIndex].images.add(image.path);
     update();
-    saveData();
+    await saveData();
   }
 
-  void readName(){
-    name = box.read('name')??'Você';
+  Future<void> readName() async {
+    name = await box.read('name') ?? 'Você';
     update();
   }
 
-  void setFacts(){
-    facts.sort((a, b){
-      return a.date.compareTo(b.date);
+  void setFacts() {
+    facts.sort((a, b) {
+      final int aDay = int.parse(a.date.substring(0, 2));
+      final int aMonth = int.parse(a.date.substring(3, 5));
+      int aYear = int.parse(a.date.substring(6, 10));
+
+      if (a.tyme == 'A.C.') {
+        aYear = int.parse('-$aYear');
+      }
+
+      final DateTime aDate = DateTime(aYear, aMonth, aDay);
+
+      final int bDay = int.parse(b.date.substring(0, 2));
+      final int bMonth = int.parse(b.date.substring(3, 5));
+      int bYear = int.parse(b.date.substring(6, 10));
+
+      if (b.tyme == 'A.C.') {
+        bYear = int.parse('-$bYear');
+      }
+
+      final DateTime bDate = DateTime(bYear, bMonth, bDay);
+
+      return aDate.compareTo(bDate);
     });
   }
 
-  void addFact(TileFacts newFact){
+  Future<void> addFact(TileFacts newFact) async {
     facts.add(newFact);
-    saveData();
+    await saveData();
     update();
   }
 
-  void removeFact(int index){
+  Future<void> removeFact(int index) async {
     facts.removeAt(index);
-    saveData();
+    await saveData();
     update();
   }
 
-
-  Future<void> saveData() async{
-
+  Future<void> saveData() async {
     final List<Map<String, dynamic>> dados = [];
-    final List<String> imagesPath = [];
-
-    for(final fact in facts){
-
-      for(final file in fact.images){
-        imagesPath.add(file as String);
-      }
-
+    for (final fact in facts) {
       final Map<String, dynamic> map = {
         'date': fact.date,
         'saveData': fact.saveData,
         'fact': fact.fact,
+        'color': fact.color,
+        'localDetails': fact.localDetails,
         'character': fact.character,
         'images': fact.images,
         'details': fact.details,
@@ -141,15 +176,15 @@ class DataController extends GetxController {
       };
       dados.add(map);
     }
-    
+
     await box.write('data', dados);
   }
 
-  Future<void> readData() async{
+  Future<void> readData() async {
     facts.clear();
-    final data = await box.read('data')??[];
-    
-    for(final fact in data){
+    final data = await box.read('data') ?? [];
+
+    for (final fact in data) {
       facts.add(TileFacts.fromMap(fact as Map<String, dynamic>));
     }
     update();
@@ -161,5 +196,4 @@ class DataController extends GetxController {
     readName();
     super.onInit();
   }
-  
 }

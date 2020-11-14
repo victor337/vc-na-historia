@@ -5,8 +5,7 @@ import 'package:vcnahistoria/controllers/form_controller.dart';
 class DataBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put(FormController(), permanent: true,);
-    Get.put(DataController(), permanent: true,);
+    Get.put(DataController(), permanent: true);
+    Get.put(FormController(), permanent: true);
   }
-
 }

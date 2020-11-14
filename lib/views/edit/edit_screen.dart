@@ -1,3 +1,4 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,33 +10,29 @@ import 'package:vcnahistoria/views/home/common/add_photo.dart';
 import 'package:vcnahistoria/views/home/common/dropdown_option.dart';
 import 'package:vcnahistoria/views/home/common/list_images.dart';
 
-
 class EditScreen extends StatelessWidget {
-
   final TileFacts tileFacts;
   final int index;
   EditScreen(this.tileFacts, this.index);
 
-  final FocusNode fato = FocusNode();
-  final FocusNode character = FocusNode();
-  final FocusNode date = FocusNode();
-  final FocusNode local = FocusNode();
-  final FocusNode details = FocusNode();
+  final FocusNode _fato = FocusNode();
+  final FocusNode _character = FocusNode();
+  final FocusNode _date = FocusNode();
+  final FocusNode _local = FocusNode();
+  final FocusNode _details = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(
-          'Edição: ${tileFacts.fact}'
-        ),
+        title: Text('Edição: ${tileFacts.fact}'),
       ),
       body: Container(
         color: const Color.fromARGB(255, 30, 30, 30),
         child: GetBuilder<EditController>(
           init: EditController(),
-          builder: (editController){
+          builder: (editController) {
             return Padding(
               padding: const EdgeInsets.all(8),
               child: Center(
@@ -45,174 +42,227 @@ class EditScreen extends StatelessWidget {
                     shrinkWrap: true,
                     children: [
                       CustomFormField(
-                        initialValue: tileFacts.fact,
-                        hintText: 'Digite aqui',
-                        labelText: 'Fato',
-                        focusNode: fato,
-                        textInputAction:  TextInputAction.next,
-                        keyboardType: TextInputType.text,
-                        textInputFormatter: null,
-                        onChanged: editController.setFact,
-                        onSubmit: (fact){
-                          fato.unfocus();
-                          FocusScope.of(context).requestFocus(character);
-                        }
-                      ),
+                          initialValue: tileFacts.fact,
+                          hintText: 'Digite aqui',
+                          labelText: 'Fato',
+                          focusNode: _fato,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.text,
+                          textInputFormatter: null,
+                          onChanged: editController.setFact,
+                          onSubmit: (fact) {
+                            _fato.unfocus();
+                            FocusScope.of(context).requestFocus(_character);
+                          }),
                       CustomFormField(
                         initialValue: tileFacts.character,
                         hintText: 'Digite aqui',
                         labelText: 'Personagem',
-                        focusNode: character,
-                        textInputAction:  TextInputAction.next,
+                        focusNode: _character,
+                        textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.text,
                         textInputFormatter: null,
                         onChanged: editController.setcharacter,
-                        onSubmit: (fact){
-                          character.unfocus();
-                          FocusScope.of(context).requestFocus(date);
-                        }
+                        onSubmit: (fact) {
+                          _character.unfocus();
+                          FocusScope.of(context).requestFocus(_date);
+                        },
                       ),
                       Row(
                         children: [
                           Expanded(
                             child: CustomFormField(
-                              maxLenght: 4,
                               initialValue: tileFacts.date,
-                              hintText: 'XXXX',
-                              labelText: 'Ano',
-                              focusNode: date,
+                              hintText: 'XX/XX/XXXX',
+                              labelText: 'Data',
+                              focusNode: _date,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.number,
                               textInputFormatter: [
                                 FilteringTextInputFormatter.digitsOnly,
+                                DataInputFormatter(),
                               ],
                               onChanged: editController.setdate,
-                              onSubmit: (text){
-                                date.unfocus();
-                                FocusScope.of(context).requestFocus(details);
-                              }
+                              onSubmit: (text) {
+                                _date.unfocus();
+                                FocusScope.of(context).requestFocus(_local);
+                              },
                             ),
                           ),
-                          const SizedBox(width: 10,),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           DropDownOption(
+                            title: 'Época',
                             options: const ['A.C.', 'D.C.'],
                             onChanged: editController.settyme,
-                            value: editController.tyme??tileFacts.tyme,
+                            value: editController.tyme ?? tileFacts.tyme,
                           ),
                         ],
                       ),
+                      CustomFormField(
+                        initialValue: tileFacts.localDetails,
+                        hintText: 'Digite aqui',
+                        labelText: 'Local',
+                        focusNode: _local,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.text,
+                        textInputFormatter: const [],
+                        onChanged: editController.setlocaldetails,
+                        onSubmit: (text) {
+                          _local.unfocus();
+                          FocusScope.of(context).requestFocus(_details);
+                        },
+                      ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.all(8.0),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Expanded(
-                              child: Text(
-                                'Local'
-                              )
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                DropDownOption(
+                                  title: 'Localização',
+                                  options: const [
+                                    'Selecione',
+                                    'Brasil',
+                                    'América do Norte',
+                                    'Europa',
+                                    'América do Sul',
+                                    'Ásia',
+                                    'Oriente Médio',
+                                    'Oceania',
+                                    'Africa'
+                                  ],
+                                  onChanged: editController.setlocalDrop,
+                                  value: editController.localDrop ??
+                                      tileFacts.localDrop,
+                                ),
+                              ],
                             ),
-                            DropDownOption(
-                              options: const ['Selecione','Brasil', 'América do Norte', 'Europa',
-                                'América do Sul', 'Ásia', 'Africa'],
-                              onChanged: editController.setlocal,
-                              value: editController.local??tileFacts.localDrop,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  DropDownOption(
+                                    title: 'Cor destaque',
+                                    options: const [
+                                      'Transparente',
+                                      'Marron',
+                                      'Amarelo',
+                                      'Azul'
+                                    ],
+                                    onChanged: editController.setcolor,
+                                    value: editController.colordrop ??
+                                        'Transparente',
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
                       CustomFormField(
-                        maxLines: 5,
-                        initialValue: tileFacts.details,
-                        hintText: 'Digite aqui',
-                        labelText: 'Detalhes',
-                        focusNode: details,
-                        textInputAction:  TextInputAction.done,
-                        keyboardType: TextInputType.text,
-                        textInputFormatter: null,
-                        onChanged: editController.setdetails,
-                        onSubmit: (fact){
-                          details.unfocus();
-                        }
-                      ),
+                          maxLines: 5,
+                          initialValue: tileFacts.details,
+                          hintText: 'Digite aqui',
+                          labelText: 'Detalhes',
+                          focusNode: _details,
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.text,
+                          textInputFormatter: null,
+                          onChanged: editController.setdetails,
+                          onSubmit: (fact) {
+                            _details.unfocus();
+                          }),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text(
                             'Fotos',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20
-                            ),
+                            style: TextStyle(fontSize: 20),
                           ),
                           IconButton(
                             icon: const Icon(Icons.info),
-                            onPressed: (){
+                            onPressed: () {
                               Get.dialog(
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 5,
                                   child: AlertDialog(
-                                    backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 30, 30, 30),
                                     content: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         const Text(
-                                          // ignore: leading_newlines_in_multiline_strings
-                                          'Aqui você apenas adiciona novas imagens. Se quiser excluir alguma: volte para '
-                                          'a tela anterior e mantenha pressionada a que deseja apagar.',
+                                          'Para apagar uma imagem basta pressionar e confirmar',
                                           textAlign: TextAlign.justify,
-                                          style: TextStyle(
-                                            color: Colors.white
-                                          ),
+                                          style: TextStyle(color: Colors.white),
                                         ),
-                                        const SizedBox(height: 10,),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
                                         RaisedButton(
                                           color: Colors.blue,
-                                          onPressed: (){
+                                          onPressed: () {
                                             Get.back();
                                           },
                                           child: const Text(
                                             'Fechar',
-                                            style: TextStyle(
-                                              color: Colors.white
-                                            ),
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ),
                                         )
                                       ],
                                     ),
                                   ),
-                                )
+                                ),
                               );
-                            }
+                            },
                           )
                         ],
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Container(
                         height: 200,
                         child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: editController.images.length + 1,
-                          itemBuilder: (ctx, index){
-                            if(index < editController.images.length){
-                              return ListImages(
-                                path: editController.images[index],
-                                index: index,
-                                remove: editController.removeImage,
-                              );
-                            } else {
-                              return AddPhoto(
-                                addImage: (path){
-                                  editController.setLoading();
-                                  editController.addImageAccount(path);
-                                  editController.setLoading();
-                                },
-                              );
-                            }
-                          }
-                        ),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: editController.images.length + 1,
+                            itemBuilder: (ctx, index) {
+                              if (index < editController.images.length) {
+                                return Row(
+                                  children: [
+                                    ListImages(
+                                      path: editController.images[index],
+                                      index: index,
+                                      remove: editController.removeImage,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    )
+                                  ],
+                                );
+                              } else {
+                                return AddPhoto(
+                                  addImage: (path) {
+                                    editController.setLoading();
+                                    editController.addImageAccount(path);
+                                    editController.setLoading();
+                                  },
+                                );
+                              }
+                            }),
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Visibility(
                         visible: editController.isLoadingImages,
                         child: const LinearProgressIndicator(
@@ -221,34 +271,44 @@ class EditScreen extends StatelessWidget {
                         ),
                       ),
                       GetBuilder<DataController>(
-                        builder: (dataController){
+                        builder: (dataController) {
                           return RaisedButton(
-                            onPressed: (){
+                            onPressed: editController.localDrop != 'Selecione'
+                                ? () {
+                                    final TileFacts tileFact = TileFacts(
+                                      localDetails:
+                                          editController.localdetails ??
+                                              tileFacts.localDetails,
+                                      date:
+                                          editController.date ?? tileFacts.date,
+                                      saveData: DateTime.now().toString(),
+                                      fact:
+                                          editController.fact ?? tileFacts.fact,
+                                      character: editController.character ??
+                                          tileFacts.character,
+                                      images: editController.images ??
+                                          tileFacts.images,
+                                      color: editController.colordrop ??
+                                          tileFacts.color,
+                                      details: editController.details ??
+                                          tileFacts.details,
+                                      tyme:
+                                          editController.tyme ?? tileFacts.tyme,
+                                      localDrop: editController.localDrop ??
+                                          tileFacts.localDrop,
+                                    );
+                                    dataController.editFactIndex(
+                                      factsTile: index,
+                                      newFact: tileFact,
+                                    );
 
-                              final TileFacts tileFact = TileFacts(
-                                date: editController.date??tileFacts.date,
-                                saveData: DateTime.now().toString(),
-                                fact: editController.fact??tileFacts.fact,
-                                character: editController.character??tileFacts.character,
-                                images: editController.images??tileFacts.images,
-                                details: editController.details??tileFacts.details,
-                                tyme: editController.tyme??tileFacts.tyme,
-                                localDrop: editController.local??tileFacts.localDrop
-                              );
-
-                              dataController.editFactIndex(
-                                factsTile: index,
-                                newFact: tileFact
-                              );
-
-                              Get.back();
-                            },
+                                    Get.back();
+                                  }
+                                : null,
                             color: const Color.fromARGB(255, 30, 30, 30),
                             child: const Text(
                               'Salvar alterações',
-                              style: TextStyle(
-                                color: Colors.white
-                              ),
+                              style: TextStyle(color: Colors.white),
                             ),
                           );
                         },
