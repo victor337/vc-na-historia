@@ -1,7 +1,17 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class FormController extends GetxController {
+  Color selectedColor = Colors.lightGreen[300];
+  void setSelectedColor(Color value) {
+    selectedColor = value;
+    update();
+  }
+
+  GetStorage box = GetStorage();
+
   List<String> images = [];
 
   bool isLoadingImages = false;
@@ -75,6 +85,7 @@ class FormController extends GetxController {
     person = null;
     details = null;
     tyme = null;
+    localdetails = null;
     localDrop = 'Selecione';
     update();
   }

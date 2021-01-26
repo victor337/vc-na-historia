@@ -2,6 +2,7 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:o_color_picker/o_color_picker.dart';
 import 'package:vcnahistoria/common/custom_form_field.dart';
 import 'package:vcnahistoria/controllers/data_controller.dart';
 import 'package:vcnahistoria/controllers/edit_controller.dart';
@@ -20,6 +21,8 @@ class EditScreen extends StatelessWidget {
   final FocusNode _date = FocusNode();
   final FocusNode _local = FocusNode();
   final FocusNode _details = FocusNode();
+
+  final controller = Get.put(DataController());
 
   @override
   Widget build(BuildContext context) {
@@ -114,54 +117,73 @@ class EditScreen extends StatelessWidget {
                           FocusScope.of(context).requestFocus(_details);
                         },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                DropDownOption(
-                                  title: 'Localização',
-                                  options: const [
-                                    'Selecione',
-                                    'Brasil',
-                                    'América do Norte',
-                                    'Europa',
-                                    'América do Sul',
-                                    'Ásia',
-                                    'Oriente Médio',
-                                    'Oceania',
-                                    'Africa'
-                                  ],
-                                  onChanged: editController.setlocalDrop,
-                                  value: editController.localDrop ??
-                                      tileFacts.localDrop,
-                                ),
-                              ],
-                            ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          DropDownOption(
+                            title: 'Localização',
+                            options: [
+                              'Selecione',
+                              'Brasil',
+                              'América do Norte',
+                              'Europa',
+                              'América do Sul',
+                              'Ásia',
+                              'Oriente Médio',
+                              'Oceania',
+                              'Africa',
+                              controller.name,
+                            ],
+                            onChanged: editController.setlocalDrop,
+                            value:
+                                editController.localDrop ?? tileFacts.localDrop,
+                          ),
+                          if (editController.localDrop == controller.name ||
+                              tileFacts.localDrop == controller.name)
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  DropDownOption(
-                                    title: 'Cor destaque',
-                                    options: const [
-                                      'Transparente',
-                                      'Marron',
-                                      'Amarelo',
-                                      'Azul'
-                                    ],
-                                    onChanged: editController.setcolor,
-                                    value: editController.colordrop ??
-                                        'Transparente',
+                              child: FlatButton(
+                                color: editController.selectedColor ??
+                                    tileFacts.myColor.toColor(),
+                                textColor: Colors.black,
+                                onPressed: () => showDialog(
+                                  context: context,
+                                  builder: (_) => AlertDialog(
+                                    content: Material(
+                                      child: OColorPicker(
+                                        selectedColor:
+                                            editController.selectedColor ??
+                                                tileFacts.myColor.toColor(),
+                                        colors: primaryColorsPalette,
+                                        onColorChange: (color) {
+                                          editController
+                                              .setSelectedColor(color);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ),
                                   ),
-                                ],
+                                ),
+                                child: const Text('Alterar sua cor'),
                               ),
                             ),
-                          ],
-                        ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DropDownOption(
+                            title: 'Cor destaque',
+                            options: const [
+                              'Transparente',
+                              'Marron',
+                              'Amarelo',
+                              'Azul'
+                            ],
+                            onChanged: editController.setcolor,
+                            value: editController.colordrop ?? 'Transparente',
+                          ),
+                        ],
                       ),
                       CustomFormField(
                           maxLines: 5,
@@ -230,7 +252,7 @@ class EditScreen extends StatelessWidget {
                         height: 10,
                       ),
                       Container(
-                        height: 200,
+                        height: 150,
                         child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
@@ -292,6 +314,19 @@ class EditScreen extends StatelessWidget {
                                           tileFacts.color,
                                       details: editController.details ??
                                           tileFacts.details,
+                                      myColor:
+                                          editController.selectedColor != null
+                                              ? ColorMySelect(
+                                                  a: editController
+                                                      .selectedColor.alpha,
+                                                  r: editController
+                                                      .selectedColor.red,
+                                                  g: editController
+                                                      .selectedColor.green,
+                                                  b: editController
+                                                      .selectedColor.blue,
+                                                )
+                                              : tileFacts.myColor,
                                       tyme:
                                           editController.tyme ?? tileFacts.tyme,
                                       localDrop: editController.localDrop ??

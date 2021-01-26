@@ -45,7 +45,12 @@ class FactsWidget extends StatelessWidget {
       } else if (local == 'Oriente Médio') {
         return Colors.purple;
       } else {
-        return Colors.yellow[800];
+        return Color.fromARGB(
+          tileFacts.myColor.a,
+          tileFacts.myColor.r,
+          tileFacts.myColor.g,
+          tileFacts.myColor.b,
+        );
       }
     }
 
@@ -83,7 +88,8 @@ class FactsWidget extends StatelessWidget {
             );
           },
           child: Container(
-            height: 110,
+            height: 130,
+            clipBehavior: Clip.antiAlias,
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
@@ -94,8 +100,8 @@ class FactsWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    height: 110,
-                    width: 110,
+                    height: 130,
+                    width: 130,
                     child: tileFacts.images.isNotEmpty
                         ? Image.file(
                             File(tileFacts.images[0] as String),
@@ -111,6 +117,7 @@ class FactsWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 12),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             decoration: BoxDecoration(
@@ -125,21 +132,28 @@ class FactsWidget extends StatelessWidget {
                             child: Text(
                               tileFacts.fact,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(color: Colors.white),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.3,
+                              ),
                             ),
                           ),
                           Flexible(
                             child: Text(
                               'Personagem: ${tileFacts.character}',
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(color: Colors.white),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                           const SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 tileFacts.date,
@@ -156,13 +170,13 @@ class FactsWidget extends StatelessWidget {
                             ],
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 '${tileFacts.localDetails}, ',
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: Colors.grey[300],
+                                  fontSize: 15,
                                 ),
                               ),
                               Text(
@@ -170,6 +184,7 @@ class FactsWidget extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: Colors.grey[300],
+                                  fontSize: 15,
                                 ),
                               ),
                             ],

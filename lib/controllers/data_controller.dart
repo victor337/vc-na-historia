@@ -19,6 +19,7 @@ class DataController extends GetxController {
       update();
     } else if (filter.length > 2) {
       factsFiltered.clear();
+
       factsFiltered.addAll(facts.where((element) =>
           element.fact.toLowerCase().contains(filter.toLowerCase())));
       factsFiltered.addAll(facts.where((element) =>
@@ -88,6 +89,7 @@ class DataController extends GetxController {
     facts[factsTile].fact = newFact.fact;
     facts[factsTile].color = newFact.color;
     facts[factsTile].images.clear();
+    facts[factsTile].myColor = newFact.myColor;
     for (final image in newFact.images ?? []) {
       facts[factsTile].images.add(image);
     }
@@ -143,7 +145,7 @@ class DataController extends GetxController {
 
       final DateTime bDate = DateTime(bYear, bMonth, bDay);
 
-      return aDate.compareTo(bDate);
+      return bDate.compareTo(aDate);
     });
   }
 
@@ -173,6 +175,7 @@ class DataController extends GetxController {
         'details': fact.details,
         'tyme': fact.tyme,
         'localDrop': fact.localDrop,
+        'myColor': fact.myColor.toMap(),
       };
       dados.add(map);
     }

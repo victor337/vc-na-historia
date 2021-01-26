@@ -1,8 +1,15 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class EditController extends GetxController {
+  Color selectedColor;
+  void setSelectedColor(Color value) {
+    selectedColor = value;
+    update();
+  }
+
   List<String> images = [];
 
   void initImages(List<dynamic> imagesEdit) {

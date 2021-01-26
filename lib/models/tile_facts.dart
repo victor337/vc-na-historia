@@ -11,6 +11,7 @@ class TileFacts {
   String details;
   String tyme;
   String localDrop;
+  ColorMySelect myColor;
 
   TileFacts({
     @required this.date,
@@ -23,6 +24,7 @@ class TileFacts {
     @required this.localDrop,
     @required this.localDetails,
     @required this.color,
+    this.myColor,
   });
 
   TileFacts.fromMap(final Map<String, dynamic> data) {
@@ -36,5 +38,40 @@ class TileFacts {
     tyme = data['tyme'] as String;
     localDetails = data['localDetails'] as String;
     localDrop = data['localDrop'] as String;
+    myColor = ColorMySelect.fromMap(data['myColor'] as Map<String, dynamic>);
+  }
+}
+
+class ColorMySelect {
+  int a;
+  int r;
+  int g;
+  int b;
+
+  Color toColor() {
+    return Color.fromARGB(a, r, g, b);
+  }
+
+  ColorMySelect({
+    this.a,
+    this.b,
+    this.g,
+    this.r,
+  });
+
+  ColorMySelect.fromMap(final Map<String, dynamic> data) {
+    a = data['a'] as int;
+    r = data['r'] as int;
+    g = data['g'] as int;
+    b = data['b'] as int;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'a': a,
+      'r': r,
+      'g': g,
+      'b': b,
+    };
   }
 }

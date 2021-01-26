@@ -33,6 +33,10 @@ class HomeScreen extends StatelessWidget {
                         builder: (formControll) {
                           return FlatButton(
                             onPressed: () {
+                              print(formControll.selectedColor.alpha);
+                              print(formControll.selectedColor.red);
+                              print(formControll.selectedColor.green);
+                              print(formControll.selectedColor.blue);
                               if (formControll.isValid()) {
                                 final TileFacts newFact = TileFacts(
                                   tyme: formControll.tyme,
@@ -45,6 +49,12 @@ class HomeScreen extends StatelessWidget {
                                   color: formControll.colordrop,
                                   details: formControll.details,
                                   localDrop: formControll.localDrop,
+                                  myColor: ColorMySelect(
+                                    a: formControll.selectedColor.alpha,
+                                    r: formControll.selectedColor.red,
+                                    g: formControll.selectedColor.green,
+                                    b: formControll.selectedColor.blue,
+                                  ),
                                 );
 
                                 dataController.addFact(newFact);

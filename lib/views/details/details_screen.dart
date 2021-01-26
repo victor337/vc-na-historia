@@ -49,11 +49,12 @@ class DetailsScreen extends StatelessWidget {
             return ListView(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               children: [
-                const Text(
-                  'Clique na foto para ampliar',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white),
-                ),
+                if (tileFacts.images.isNotEmpty)
+                  const Text(
+                    'Clique na foto para ampliar',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white),
+                  ),
                 Container(
                     height: 200,
                     child: tileFacts.images.isNotEmpty

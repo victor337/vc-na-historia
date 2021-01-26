@@ -8,8 +8,7 @@ class PhotosForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
-      padding: const EdgeInsets.fromLTRB(10, 20, 15, 20),
+      padding: const EdgeInsets.fromLTRB(10, 20, 15, 0),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(15)),
       child: GetBuilder<FormController>(
@@ -31,7 +30,8 @@ class PhotosForm extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Expanded(
+              Container(
+                height: 150,
                 child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
